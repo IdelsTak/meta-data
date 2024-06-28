@@ -1,0 +1,39 @@
+name: Java CI with Maven
+
+# Trigger the workflow on push or pull request events for the master branch
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    # Use the latest Ubuntu environment for the build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up JDK 22 using Temurin distribution and enable Maven cache
+      - name: Set up JDK 22
+        uses: actions/setup-java@v3
+        with:
+          java-version: '22'
+          distribution: 'temurin'
+          cache: maven
+
+      # Step 3: Run the tests on a Linux environment
+      - name: Run Tests (Linux)
+        run: |
+          # Set up display for GUI tests
+          # This part ensures that the GUI tests using TestFX will run correctly
+          # in the CI environment.
+          export DISPLAY=:90
+          # Start a virtual frame buffer for GUI tests
+          Xvfb -ac :90 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          # Clean and install the Maven project, running all tests
+          mvn clean install
+
