@@ -51,18 +51,4 @@ public class FileAccess {
             }
         }
     }
-
-//    private void findAudioFilesIn(File directory, List<File> audioFiles) {
-//        File[] files = directory.listFiles();
-//        if (files != null) {
-//            for (File file : files) {
-//                if (file.isFile() && isAudioFile(file)) {
-//                    audioFiles.add(file);
-//                } else if (file.isDirectory()) {
-//                    // Recursively search in subdirectories
-//                    findAudioFilesIn(file, audioFiles);
-//                }
-//            }
-//        }
-//    }
 }
