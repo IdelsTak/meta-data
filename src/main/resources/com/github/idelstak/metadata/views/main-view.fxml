@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+
+<BorderPane prefHeight="800.0" prefWidth="1000.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.MainViewController">
+   <top>
+       <ToolBar styleClass="main-tool-bar">
+           <Button onAction="#openDirectory">
+                <graphic>
+                    <FontIcon style="-fx-icon-code: bx-folder-plus;" />
+                </graphic>
+           </Button>
+           <Label fx:id="spacerLabel" maxWidth="1.7976931348623157E308" />
+           <Button>
+              <graphic>
+                  <FontIcon style="-fx-icon-code: bx-undo;" />
+              </graphic>
+           </Button>
+           <Button>
+              <graphic>
+                  <FontIcon style="-fx-icon-code: bx-redo;" />
+              </graphic>
+           </Button>
+           <Separator orientation="VERTICAL" visible="false" />
+           <Button>
+              <graphic>
+                  <FontIcon style="-fx-icon-code: bx-save;" />
+              </graphic>
+           </Button>
+           <Separator orientation="VERTICAL" visible="false" />
+           <Button>
+              <graphic>
+                  <FontIcon style="-fx-icon-code: bx-cloud-download;" />
+              </graphic>
+           </Button>
+         <Separator minWidth="-Infinity" orientation="VERTICAL" prefWidth="6.0" visible="false" />
+       </ToolBar>
+   </top>
+   <bottom>
+      <HBox BorderPane.alignment="CENTER">
+         <styleClass>
+            <String fx:value="status-bar" />
+            <String fx:value="light-border" />
+         </styleClass></HBox>
+   </bottom>
+   <center>
+      <SplitPane fx:id="mainSplitPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+   </center>
+</BorderPane>

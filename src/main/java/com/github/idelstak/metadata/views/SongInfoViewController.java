@@ -1,12 +1,14 @@
 package com.github.idelstak.metadata.views;
 
 import com.dlsc.gemsfx.*;
-import javafx.application.*;
 import javafx.beans.property.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
+import javafx.scene.shape.*;
 import org.slf4j.*;
+
+import static javafx.application.Platform.*;
 
 public class SongInfoViewController extends FxmlController {
 
@@ -36,14 +38,14 @@ public class SongInfoViewController extends FxmlController {
                 return;
             }
 
-            Platform.runLater(() -> {
-                titleField.textProperty().bindBidirectional(taggedAudioFile.titleProperty());
-                artistField.textProperty().bindBidirectional(taggedAudioFile.artistProperty());
-                albumField.textProperty().bindBidirectional(taggedAudioFile.albumProperty());
-                trackField.textProperty().bindBidirectional(taggedAudioFile.trackProperty());
-                yearField.textProperty().bindBidirectional(taggedAudioFile.yearProperty());
-                fileNameField.textProperty().bindBidirectional(taggedAudioFile.fileNameProperty());
-                artView.imageProperty().bindBidirectional(taggedAudioFile.artProperty());
+            runLater(() -> {
+                titleField.setText(taggedAudioFile.title());
+                artistField.setText(taggedAudioFile.artist());
+                albumField.setText(taggedAudioFile.album());
+                trackField.setText(taggedAudioFile.track());
+                yearField.setText(taggedAudioFile.year());
+                fileNameField.setText(taggedAudioFile.fileName());
+                artView.setImage(taggedAudioFile.art());
             });
         });
     }

@@ -6,11 +6,13 @@ import javafx.collections.*;
 import javafx.concurrent.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
+import javafx.scene.control.TableView.*;
 import org.slf4j.*;
 
 import java.io.*;
 import java.util.*;
 
+import static com.github.idelstak.metadata.views.Fxml.*;
 import static javafx.application.Platform.*;
 
 public class FilesTableViewController extends FxmlController {
@@ -98,6 +100,25 @@ public class FilesTableViewController extends FxmlController {
         yearColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().year()));
 
         filesTableView.setItems(taggedAudioFiles);
+
+        TableViewSelectionModel<TaggedAudioFile> selectionModel = filesTableView.getSelectionModel();
+        ReadOnlyObjectProperty<TaggedAudioFile> itemProperty = selectionModel.selectedItemProperty();
+        itemProperty.addListener((_, _, taggedAudioFile) -> {
+            if (taggedAudioFile == null) {
+                return;
+            }
+
+            SongInfoViewController controller;
+            try {
+                controller = (SongInfoViewController) SONG_INFO_VIEW.controller();
+            } catch (IOException e) {
+                LOG.error("", e);
+                throw new RuntimeException(e);
+            }
+
+            //runLater(() -> controller.setTaggedAudioFile(taggedAudioFile));
+            controller.setTaggedAudioFile(taggedAudioFile);
+        });
     }
 
     void setDirectory(File rootDirectory) {

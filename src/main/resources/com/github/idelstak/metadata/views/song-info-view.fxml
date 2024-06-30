@@ -5,37 +5,45 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="32.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
+<VBox alignment="CENTER" minWidth="-Infinity" prefWidth="350.0" spacing="32.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
     <padding>
-        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+        <Insets bottom="24.0" left="24.0" right="24.0" top="48.0" />
     </padding>
-    <AvatarView fx:id="artView" arcSize="24.0" size="300.0" />
-    <GridPane hgap="6.0" vgap="6.0">
+   <StackPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="288.0" prefWidth="288.0" style="-fx-background-color: lightgray; -fx-background-radius: 16;">
+      <children>
+          <AvatarView fx:id="artView" arcSize="24.0" size="280.0" />
+      </children>
+   </StackPane>
+    <GridPane hgap="12.0">
         <columnConstraints>
-            <ColumnConstraints minWidth="10.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints minWidth="10.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" />
+            <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="24.0" prefHeight="30.0" />
+            <RowConstraints minHeight="24.0" prefHeight="30.0" />
+            <RowConstraints minHeight="24.0" prefHeight="30.0" />
+            <RowConstraints minHeight="24.0" prefHeight="30.0" />
+            <RowConstraints minHeight="24.0" prefHeight="30.0" />
+            <RowConstraints minHeight="24.0" prefHeight="30.0" />
+         <RowConstraints minHeight="24.0" prefHeight="30.0" />
+         <RowConstraints minHeight="24.0" prefHeight="30.0" />
+         <RowConstraints minHeight="24.0" prefHeight="30.0" />
+         <RowConstraints minHeight="24.0" prefHeight="30.0" />
+         <RowConstraints minHeight="24.0" prefHeight="30.0" />
         </rowConstraints>
-        <Label text="Title" />
-        <TextField fx:id="titleField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" />
-        <Label text="Artist" GridPane.rowIndex="1" />
-        <TextField fx:id="artistField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-        <Label text="Album" GridPane.rowIndex="2" />
-        <TextField fx:id="albumField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
-        <Label text="Track" GridPane.rowIndex="3" />
-        <TextField fx:id="trackField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <Label text="Year" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-        <TextField fx:id="yearField" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-        <Label text="File" GridPane.rowIndex="5" />
-        <TextField fx:id="fileNameField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
+        <Label styleClass="bold" text="Title" GridPane.valignment="BOTTOM" />
+        <TextField fx:id="titleField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+        <Label styleClass="bold" text="Artist" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+        <TextField fx:id="artistField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+        <Label styleClass="bold" text="Album" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
+        <TextField fx:id="albumField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
+        <Label styleClass="bold" text="Track" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+        <TextField fx:id="trackField" maxHeight="1.7976931348623157E308" GridPane.rowIndex="7" />
+        <Label styleClass="bold" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+        <TextField fx:id="yearField" maxHeight="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <Label styleClass="bold" text="File" GridPane.rowIndex="9" GridPane.valignment="BOTTOM" />
+        <TextField fx:id="fileNameField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="10" />
     </GridPane>
+   <VBox maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
 </VBox>

@@ -8,7 +8,8 @@ import java.net.*;
 
 public enum Fxml {
     FILES_TABLE_VIEW("/com/github/idelstak/metadata/views/files-table-view.fxml"),
-    SONG_INFO_VIEW("/com/github/idelstak/metadata/views/song-info-view.fxml");
+    SONG_INFO_VIEW("/com/github/idelstak/metadata/views/song-info-view.fxml"),
+    MAIN_VIEW("/com/github/idelstak/metadata/views/main-view.fxml");
 
     private final String path;
     private Object controller;
@@ -16,7 +17,7 @@ public enum Fxml {
 
     Fxml(String path) {this.path = path;}
 
-    Parent root() throws IOException {
+    public Parent root() throws IOException {
         load();
         return root;
     }
