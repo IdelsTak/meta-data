@@ -1,0 +1,19 @@
+.main-tool-bar .ikonli-font-icon {
+    -fx-icon-size: 24px
+}
+.status-bar {
+    -fx-pref-height: 32px
+}
+.light-border {
+    -fx-border-color: lightgray;
+    -fx-border-width: 0.3px 0 0 0;
+}
+.bold {
+    -fx-font-weight: bold
+}
+.muted {
+    -fx-text-fill: darkgray
+}
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 0.09em 0 0.09em;
+}
