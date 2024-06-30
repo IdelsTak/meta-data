@@ -35,11 +35,11 @@ public class FileAccess {
     private static void deleteDirectoryRecursively(Path directory) throws IOException {
         if (Files.exists(directory)) {
             try (Stream<Path> visited = Files.walk(directory)) {
-                // Sort entries in reverse order - delete files first
+                // Sort entries in reverse order - delete mixed first
                 Comparator<Path> reverseOrder = Comparator.reverseOrder();
                 // Skip the directory itself (initially)
                 Predicate<Path> ifNotDirectoryItself = path -> path != directory;
-                // Delete all files contained in the directory
+                // Delete all mixed contained in the directory
                 for (Path path : visited.sorted(reverseOrder).filter(ifNotDirectoryItself).toList()) {
                     Files.delete(path);
                 }

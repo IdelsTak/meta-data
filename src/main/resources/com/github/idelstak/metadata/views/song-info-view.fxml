@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.dlsc.gemsfx.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="32.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
+    <padding>
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+    </padding>
+    <AvatarView fx:id="artView" arcSize="24.0" size="300.0" />
+    <GridPane hgap="6.0" vgap="6.0">
+        <columnConstraints>
+            <ColumnConstraints minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        </rowConstraints>
+        <Label text="Title" />
+        <TextField fx:id="titleField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" />
+        <Label text="Artist" GridPane.rowIndex="1" />
+        <TextField fx:id="artistField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+        <Label text="Album" GridPane.rowIndex="2" />
+        <TextField fx:id="albumField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+        <Label text="Track" GridPane.rowIndex="3" />
+        <TextField fx:id="trackField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label text="Year" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+        <TextField fx:id="yearField" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+        <Label text="File" GridPane.rowIndex="5" />
+        <TextField fx:id="fileNameField" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
+    </GridPane>
+</VBox>

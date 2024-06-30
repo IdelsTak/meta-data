@@ -28,7 +28,7 @@ class AudioFileResolveService extends Service<List<TaggedAudioFile>> {
 
                 // Initial progress update
                 runLater(() -> {
-                    updateMessage("Starting to resolve %d files...".formatted(filesCount));
+                    updateMessage("Starting to resolve %d mixed...".formatted(filesCount));
                     updateProgress(0, filesCount);
                 });
 
@@ -47,7 +47,7 @@ class AudioFileResolveService extends Service<List<TaggedAudioFile>> {
                         // Update the value with the latest resolved file
                         runLater(() -> updateValue(List.of(taggedAudioFile)));
                     } catch (Exception e) {
-                        // Log and handle the error, but continue processing other files
+                        // Log and handle the error, but continue processing other mixed
                         LOG.error("Error processing file: {}", file.getName(), e);
                         runLater(() -> updateMessage("Error resolving " + file.getName()));
                     }
@@ -58,7 +58,7 @@ class AudioFileResolveService extends Service<List<TaggedAudioFile>> {
                 }
 
                 // Final progress update
-                runLater(() -> updateMessage("Completed resolving %d files.".formatted(filesCount)));
+                runLater(() -> updateMessage("Completed resolving %d mixed.".formatted(filesCount)));
                 return taggedAudioFiles;
             }
         };

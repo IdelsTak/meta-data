@@ -9,40 +9,32 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
+import static com.github.idelstak.metadata.filesystem.SampleFile.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class FilesAccessTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(FilesAccessTest.class);
-    private static final String SAMPLE_FILES_PATH = "/sample/files/";
-    private static final String NESTED_FILES_PATH = "nested";
-    private static URL sampleFilesUrl;
+    private final File nestedFilesDir = new File(MIXED.url().getFile(), "nested");
+    private URL nestedFilesUrl;
 
-    protected static URL sampleFilesUrl() {
-        return sampleFilesUrl;
-    }
-
-    protected static URL mp3sDir() {
-        return FilesAccessTest.class.getResource("/mp3s");
-    }
-
-    @BeforeAll
-    static void setUp() throws IOException, URISyntaxException {
-        cleanupSampleFiles();
-        // Distribute sample files in a nested directory structure
+    @BeforeEach
+    void setUp() throws IOException, URISyntaxException {
+        cleanupNestedFiles();
+        // Distribute sample mixed in a nested directory structure
         distributeAndNestFiles();
-        sampleFilesUrl = FilesAccessTest.class.getResource(SAMPLE_FILES_PATH + NESTED_FILES_PATH);
+        nestedFilesUrl = nestedFilesDir.toURI().toURL();
     }
 
-    @AfterAll
-    static void tearDown() throws IOException {
-        cleanupSampleFiles();
+    @AfterEach
+    void tearDown() throws IOException {
+        cleanupNestedFiles();
     }
 
-    private static void cleanupSampleFiles() throws IOException {
-        if (sampleFilesUrl != null) {
-            File nestedDirectory = new File(sampleFilesUrl.getFile());
-            // Recursively deletes all files and subdirectories within the specified directory
+    private void cleanupNestedFiles() throws IOException {
+        if (nestedFilesUrl != null) {
+            File nestedDirectory = new File(nestedFilesUrl.getFile());
+            // Recursively deletes all mixed and subdirectories within the specified directory
             if (nestedDirectory.exists()) {
                 FileAccess.deleteDirectoryRecursively(nestedDirectory);
             }
@@ -50,46 +42,33 @@ public class FilesAccessTest {
     }
 
     @Test
-    void shouldRetrieveAllAudioFilesFromNestedStructure() throws IOException {
-        assertThat(sampleFilesUrl).isNotNull();
-        File directory = new File(sampleFilesUrl.getFile());
+    void retrieves_all_audio_files_from_nested_structure() throws IOException {
+        assertThat(nestedFilesUrl).isNotNull();
+        File directory = new File(nestedFilesUrl.getFile());
         File[] files = FileAccess.findAllFilesRecursively(directory).toArray(File[]::new);
         assertThat(files).isNotNull();
         FileAccess fileAccess = new FileAccess(directory);
 
-        // Assert that the audio files in FileAccess match those distributed and nested in the sample files
+        // Assert that the audio mixed in FileAccess match those distributed and nested in the sample mixed
         List<File> audioFilesFromDistributed = Arrays.stream(files).filter(FileAccess::isAudioFile).toList();
         assertThat(fileAccess.getAudioFiles()).containsExactlyInAnyOrderElementsOf(audioFilesFromDistributed);
     }
 
-    private static void distributeAndNestFiles() throws IOException, URISyntaxException {
+    private void distributeAndNestFiles() throws IOException, URISyntaxException {
         List<File> files = findSampleFiles();
-        // Ensure resources directory exists
-        URL resourcesRoot = FilesAccessTest.class.getResource(SAMPLE_FILES_PATH);
-        if (resourcesRoot == null) {
-            throw new IOException("Test resources directory not found: " + SAMPLE_FILES_PATH);
-        }
-
-        File rootDir = new File(resourcesRoot.getFile(), NESTED_FILES_PATH);
         // Create directories if they don't exist
-        Files.createDirectories(rootDir.toPath());
-        distributeFiles(rootDir, files);
+        Files.createDirectories(nestedFilesDir.toPath());
+        distributeFiles(nestedFilesDir, files);
     }
 
     private static List<File> findSampleFiles() throws IOException, URISyntaxException {
-        List<File> files = new ArrayList<>();
-        // Locate sample files from resources directory
-        URL resourcesRoot = FilesAccessTest.class.getResource(SAMPLE_FILES_PATH);
-        if (resourcesRoot != null) {
-            try (Stream<Path> paths = Files.walk(Paths.get(resourcesRoot.toURI()))) {
-                files.addAll(paths.map(Path::toFile).toList());
-            }
+        try (Stream<Path> paths = Files.walk(Paths.get(MIXED.url().toURI()))) {
+            return new ArrayList<>(paths.map(Path::toFile).toList());
         }
-        return files;
     }
 
     private static void distributeFiles(File rootDir, List<File> files) throws IOException {
-        // Shuffle files randomly
+        // Shuffle mixed randomly
         Collections.shuffle(files);
         // Distribute each file into the root directory
         for (File file : files) {

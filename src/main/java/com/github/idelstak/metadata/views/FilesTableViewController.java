@@ -54,7 +54,7 @@ public class FilesTableViewController extends FxmlController {
                 LOG.error("", e);
             }
 
-            LOG.info("Mapping {} audio files to tagged audio files...", filesTmp.size());
+            LOG.info("Mapping {} audio mixed to tagged audio mixed...", filesTmp.size());
 
             List<File> files = new ArrayList<>(filesTmp);
             runLater(() -> {
@@ -80,12 +80,12 @@ public class FilesTableViewController extends FxmlController {
                 }
             });
             resolveService.setOnFailed(event -> {
-                LOG.error("ResolveService failed to map tagged audio files", event.getSource().getException());
+                LOG.error("ResolveService failed to map tagged audio mixed", event.getSource().getException());
             });
             resolveService.setOnSucceeded(event -> {
                 @SuppressWarnings("unchecked")
                 List<TaggedAudioFile> tagged = (List<TaggedAudioFile>) event.getSource().getValue();
-                LOG.info("ResolveService successfully mapped {} tagged files", tagged.size());
+                LOG.info("ResolveService successfully mapped {} tagged mixed", tagged.size());
             });
 
             resolveService.start();

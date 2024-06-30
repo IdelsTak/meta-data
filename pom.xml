@@ -15,6 +15,7 @@
         <junit.version>5.11.0-M2</junit.version>
         <testfx.version>4.0.18</testfx.version>
         <javafx.version>22.0.1</javafx.version>
+        <ikonli.version>12.3.1</ikonli.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,24 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- Ikonli -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-boxicons-pack</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dlsc.gemsfx</groupId>
+            <artifactId>gemsfx</artifactId>
+            <version>2.32.0</version>
         </dependency>
 
         <!-- AudioTagger -->

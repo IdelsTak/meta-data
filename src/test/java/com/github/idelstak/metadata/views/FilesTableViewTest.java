@@ -12,24 +12,23 @@ import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit5.*;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import static com.github.idelstak.metadata.filesystem.SampleFile.*;
 import static com.github.idelstak.metadata.views.Fxml.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.testfx.framework.junit5.utils.FXUtils.*;
 import static org.testfx.util.WaitForAsyncUtils.*;
 
 @ExtendWith(ApplicationExtension.class)
-class FilesTableViewTest extends FilesAccessTest {
+class FilesTableViewTest {
 
     private FilesTableViewController controller;
 
     @Start
     void init(Stage stage) {
         runFX(() -> {
-
             Parent root = null;
             try {
                 root = FILES_TABLE_VIEW.root();
@@ -48,7 +47,7 @@ class FilesTableViewTest extends FilesAccessTest {
 
     @Test
     void loads_audio_files_only() throws IOException {
-        File sampleFilesDirectory = new File(sampleFilesUrl().getFile());
+        File sampleFilesDirectory = new File(MIXED.url().getFile());
         controller.setDirectory(sampleFilesDirectory);
 
         waitForFxEvents();
@@ -60,11 +59,10 @@ class FilesTableViewTest extends FilesAccessTest {
     }
 
     @Test
-    void displaysMetadata() throws InterruptedException {
-        URL url = mp3sDir();
-        assertThat(url).isNotNull();
+    void displays_metadata() throws InterruptedException {
+        assertThat(MP3S.url()).isNotNull();
 
-        File directory = new File(url.getFile());
+        File directory = new File(MP3S.url().getFile());
         controller.setDirectory(directory);
 
         waitForFxEvents();

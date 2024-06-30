@@ -7,7 +7,8 @@ import java.io.*;
 import java.net.*;
 
 public enum Fxml {
-    FILES_TABLE_VIEW("/com/github/idelstak/metadata/views/files-table-view.fxml");
+    FILES_TABLE_VIEW("/com/github/idelstak/metadata/views/files-table-view.fxml"),
+    SONG_INFO_VIEW("/com/github/idelstak/metadata/views/song-info-view.fxml");
 
     private final String path;
     private Object controller;
