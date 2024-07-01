@@ -6,6 +6,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
+import javafx.util.*;
 import org.slf4j.*;
 
 import java.io.*;
@@ -46,6 +47,18 @@ public class MainViewController extends FxmlController {
 
     private Node songInfoPane() throws IOException {
         return SONG_INFO_VIEW.root();
+    }
+
+    @FXML
+    private void fetchMetadata(ActionEvent actionEvent) throws IOException {
+        Window owner = ((Node) actionEvent.getSource()).getScene().getWindow();
+        SongInfoViewController controller = (SongInfoViewController) SONG_INFO_VIEW.controller();
+        Pair<String, String> titlePair = new QueryPair("TITLE", controller.title());
+        Pair<String, String> artistPair = new QueryPair("ARTIST", controller.artist());
+        Pair<String, String> albumPair = new QueryPair("ALBUM", controller.album());
+        Pair<String, String> yearPair = new QueryPair("YEAR", controller.year());
+        MetadataQuery query = new MetadataQuery(titlePair, artistPair, albumPair, yearPair);
+        new MetadataFetchDialog(owner, query).showAndWait();
     }
 
     @FXML

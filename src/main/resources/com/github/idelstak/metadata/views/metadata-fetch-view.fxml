@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+
+<GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="400.0" stylesheets="@styles.css" vgap="6.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.MetadataFetchViewController">
+    <columnConstraints>
+        <ColumnConstraints minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="50.0" />
+        <RowConstraints minHeight="-Infinity" prefHeight="180.0" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="6.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0" />
+    </rowConstraints>
+    <padding>
+        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+    </padding>
+    <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" text="Search results for:" />
+    <Label fx:id="queryLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="{query}" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" />
+   <TableView fx:id="artResultsTable" styleClass="cover-browser" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+      <padding>
+         <Insets top="2.0" />
+      </padding>
+   </TableView>
+    <StackPane GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+        <Label fx:id="finalResultsFetchedLabel" maxWidth="1.7976931348623157E308" text="{x results found}" visible="false" StackPane.alignment="CENTER_LEFT" />
+        <HBox fx:id="fetchProgressBox" alignment="CENTER_LEFT" spacing="12.0">
+         <ProgressBar fx:id="fetchProgressBar" progress="0.0" />
+            <Label fx:id="fetchProgressLabel" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" text="{fetching...}" HBox.hgrow="ALWAYS" />
+            <Label fx:id="fetchResultsLabel" contentDisplay="RIGHT" graphicTextGap="6.0" text="{x fetched}">
+                <graphic>
+                    <Button fx:id="cancelFetchButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" style="-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-radius: 12px; -fx-cursor: hand;">
+                        <graphic>
+                            <FontIcon style="-fx-icon-code: mu-cancel;" />
+                        </graphic>
+                    </Button>
+                </graphic>
+            </Label>
+        </HBox>
+    </StackPane>
+    <Label maxWidth="1.7976931348623157E308" text="Tags comparison" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
+    <TableView fx:id="tagsComparisonTable" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
+        <columns>
+            <TableColumn fx:id="tagFieldsColumn" prefWidth="75.0" />
+            <TableColumn fx:id="originalFieldsColumn" prefWidth="75.0" text="Original" />
+            <TableColumn fx:id="fetchedFieldsColumn" prefWidth="75.0" text="Fetched" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+</GridPane>

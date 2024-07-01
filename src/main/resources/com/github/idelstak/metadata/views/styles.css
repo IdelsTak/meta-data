@@ -6,7 +6,7 @@
 }
 .light-border {
     -fx-border-color: lightgray;
-    -fx-border-width: 0.3px 0 0 0;
+    -fx-border-width: 0.3px 0 0 0
 }
 .bold {
     -fx-font-weight: bold
@@ -15,5 +15,73 @@
     -fx-text-fill: darkgray
 }
 .split-pane > .split-pane-divider {
-    -fx-padding: 0 0.09em 0 0.09em;
+    -fx-padding: 0 0.09em 0 0.09em
 }
+.avatar-view > .icon-wrapper {
+    -fx-background-color: -fx-base;
+    -fx-padding: 10px
+}
+.avatar-view > .icon-wrapper .icon {
+    -fx-shape: 'm 158.25116,598.48354 c -12.80314,-2.78127 -23.58833,-11.62543 -29.54169,-24.22501 -2.95677,-6.25765 -3.19404,-7.5367 -3.20146,-17.25853 -0.007,-8.60741 0.39775,-11.49135 2.24313,-16 2.4413,-5.96462 185.80692,-268.77626 192.08659,-275.31109 4.86063,-5.05815 16.15575,-10.5572 23.94655,-11.65842 13.67404,-1.93281 28.47325,3.06493 37.36903,12.61966 1.45933,1.56742 19.16249,26.47485 39.34036,55.34985 20.17788,28.875 37.21155,53.04909 37.8526,53.72019 0.90041,0.94264 3.66639,-2.80097 12.15964,-16.45743 15.09531,-24.27206 21.32491,-30.20891 35.51874,-33.84959 15.40891,-3.95234 31.77209,0.87231 41.9631,12.37274 5.88826,6.64482 124.88523,196.72054 127.66037,203.91388 1.38015,3.57746 1.85188,7.47486 1.85188,15.30021 0,9.73944 -0.2319,10.98955 -3.20145,17.25853 -6.07629,12.82754 -16.75186,21.45884 -30.01816,24.26998 -9.84751,2.08669 -476.41521,2.04352 -486.02923,-0.045 z m 377.53363,-32.55836 c 7.12024,-2.48213 8.15731,-9.8708 2.53531,-18.06297 -25.27416,-36.82855 -179.28578,-256.13005 -181.42732,-258.33948 -4.05697,-4.18559 -9.72859,-4.18559 -13.78556,0 -2.14154,2.20943 -156.15316,221.51093 -181.42732,258.33948 -5.39727,7.8647 -4.73861,14.37026 1.8201,17.97711 2.79922,1.53938 367.87368,1.62358 372.28479,0.0859 z m 104.93837,-0.8979 c 3.44966,-2.10334 4.75819,-5.2943 4.07628,-9.94041 -0.64781,-4.41383 -120.50979,-195.63387 -123.47578,-196.98526 -4.14378,-1.88804 -8.07365,-1.30904 -11.18826,1.64839 -2.15855,2.04961 -23.55592,35.3606 -29.51146,45.94283 -0.38757,0.68866 17.68582,27.3864 42.76059,63.1653 23.88754,34.08486 44.56279,63.92309 45.94501,66.30717 4.15391,7.16477 5.96742,15.14384 5.45476,23.99972 L 574.33075,567 l 31.58462,-0.004 c 29.63468,-0.004 31.78362,-0.12506 34.80779,-1.96898 z M 586.5,298.34292 C 555.65377,291.7593 534.01008,265.26778 533.93157,234 c -0.0316,-12.57677 1.32983,-18.60249 6.77801,-30 8.48036,-17.7408 25.84564,-31.46849 44.91877,-35.50941 14.9712,-3.17187 29.99,-1.26677 44.18712,5.60503 6.83977,3.31064 10.22838,5.80537 16.76727,12.34426 6.80235,6.80236 8.96442,9.79813 12.72196,17.62761 5.43111,11.31667 6.79532,17.3539 6.76373,29.93251 -0.065,25.86518 -14.09972,47.94419 -37.56843,59.10137 -13.72127,6.52318 -27.77668,8.27728 -42,5.24155 z m 27.03411,-34.7299 c 6.84369,-3.13315 12.40708,-8.27364 16.02781,-14.80947 2.70155,-4.87659 2.93802,-6.1086 2.93731,-15.30355 -6.8e-4,-8.88644 -0.2958,-10.55899 -2.6502,-15.0198 -3.46052,-6.55657 -11.14405,-13.65891 -17.3772,-16.06277 -6.71651,-2.59028 -18.2386,-2.58583 -24.96892,0.01 -6.97463,2.68969 -14.62815,10.23232 -17.99469,17.73395 -2.4699,5.50368 -2.69703,6.95547 -2.30328,14.72238 0.31735,6.25991 1.0345,9.77139 2.62208,12.8388 8.49032,16.40436 27.49373,23.31354 43.70709,15.89082 z';
+    -fx-scale-shape: true;
+    -fx-background-color: lightgray;
+    -fx-fill: black
+}
+.cover-browser {
+    -fx-border-color: transparent;
+    -color-cell-border: transparent
+}
+.cover-browser > .column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0
+}
+.cover-browser .table-row-cell > .table-cell.table-column.align-center {
+    -fx-alignment: baseline-center
+}
+.cover-browser .table-row-cell .result-box {
+    -fx-padding: 4px;
+    -fx-cursor: hand
+}
+.cover-browser .table-cell {
+    -fx-border-color: transparent
+}
+.cover-browser > .virtual-flow > .scroll-bar:vertical {
+    visibility: false;
+}
+.cover-browser > .virtual-flow > .scroll-bar:horizontal {
+    -fx-padding: 0 -9 -12 -9
+}
+.cover-browser > .virtual-flow > .scroll-bar:vertical > .increment-button > .increment-arrow,
+.cover-browser > .virtual-flow > .scroll-bar:vertical > .decrement-button > .decrement-arrow,
+.cover-browser > .virtual-flow > .scroll-bar:horizontal > .increment-button > .increment-arrow, .cover-browser > .virtual-flow > .scroll-bar:horizontal > .decrement-button > .decrement-arrow {
+    -fx-padding: 0;
+    -fx-shape: ''
+}
+.cover-browser:focus-within:row-selection:unconstrained-resize .virtual-flow:focus-within .scroll-bar:vertical .thumb,
+.cover-browser > .virtual-flow > .scroll-pane > .scroll-bar:vertical .thumb {
+    visibility: false;
+}
+/*.cover-browser > .virtual-flow > .scroll-pane > .scroll-bar:vertical,
+.cover-browser > .virtual-flow > .scroll-pane > .scroll-bar:horizontal {
+    -fx-padding: 0;
+}
+.cover-browser > .virtual-flow > .scroll-pane > .scroll-bar:vertical > .increment-button,
+.cover-browser > .virtual-flow > .scroll-pane > .scroll-bar:vertical > .decrement-button,
+.cover-browser > .virtual-flow > .scroll-pane > .scroll-bar:horizontal > .increment-button,
+.cover-browser > .virtual-flow > .scroll-pane > .scroll-bar:horizontal > .decrement-button {
+    -fx-padding: 0;
+}
+
+.cover-browser > .virtual-flow >  .scroll-pane > .scroll-bar > .increment-button,
+.cover-browser > .virtual-flow >  .scroll-pane > .scroll-bar > .decrement-button {
+    -fx-padding: 0
+}*/
+/*.cover-browser .table-row-cell .result-box:clicked {
+  -fx-background-color: -fx-selection-bar;
+}
+.cover-browser > .virtual-flow > .clipped-container > .sheet > .table-row-cell:filled:selected,
+.cover-browser > .virtual-flow > .clipped-container > .sheet > .table-row-cell .table-cell:selected {
+    -fx-background: white;
+    -fx-table-cell-border-color: white;
+}*/

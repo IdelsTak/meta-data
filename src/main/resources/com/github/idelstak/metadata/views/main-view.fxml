@@ -31,7 +31,7 @@
               </graphic>
            </Button>
            <Separator orientation="VERTICAL" visible="false" />
-           <Button>
+           <Button onAction="#fetchMetadata">
               <graphic>
                   <FontIcon style="-fx-icon-code: bx-cloud-download;" />
               </graphic>

@@ -67,6 +67,23 @@ public class TaggedAudioFile {
         }
     }
 
+    public TaggedAudioFile(
+            String title,
+            String artist,
+            String album,
+            String track,
+            String year,
+            Image art,
+            String fileName) {
+        this.title = new SimpleStringProperty(title);
+        this.artist = new SimpleStringProperty(artist);
+        this.album = new SimpleStringProperty(album);
+        this.track = new SimpleStringProperty(track);
+        this.year = new SimpleStringProperty(year);
+        this.art = new SimpleObjectProperty<>(art);
+        this.fileName = new SimpleStringProperty(fileName);
+    }
+
     @Override
     public String toString() {
         String prefix = TaggedAudioFile.class.getSimpleName() + "[";
