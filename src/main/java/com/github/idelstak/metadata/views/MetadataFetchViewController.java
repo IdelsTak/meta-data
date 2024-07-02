@@ -8,6 +8,7 @@ import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.collections.ListChangeListener.*;
 import javafx.collections.*;
+import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView.*;
@@ -29,6 +30,7 @@ public class MetadataFetchViewController extends FxmlController {
     private final ObservableList<TaggedAudioFile> tagResults;
     private final ObjectProperty<TaggedAudioFile> taggedAudioFile;
     private final ObjectProperty<TaggedAudioFile> selectedTaggedAudioFile;
+    private final BooleanProperty cancelFetch;
     @FXML
     private Label finalResultsFetchedLabel;
     @FXML
@@ -67,6 +69,19 @@ public class MetadataFetchViewController extends FxmlController {
         tagResults = observableArrayList();
         taggedAudioFile = new SimpleObjectProperty<>();
         selectedTaggedAudioFile = new SimpleObjectProperty<>();
+        cancelFetch = new SimpleBooleanProperty();
+    }
+
+    public void setQuery(MetadataQuery query) {
+        this.query.set(query);
+    }
+
+    public void setTaggedAudioFile(TaggedAudioFile taggedAudioFile) {
+        this.taggedAudioFile.set(taggedAudioFile);
+    }
+
+    public TaggedAudioFile selectedTaggedAudioFile() {
+        return selectedTaggedAudioFile.get();
     }
 
     @Override
@@ -109,8 +124,13 @@ public class MetadataFetchViewController extends FxmlController {
             }
 
             FetchService service = new FetchService(query);
+            cancelFetch.addListener((_, _, cancel) -> {
+                if (cancel != null && cancel) {
+                    service.cancel();
+                }
+            });
             finalResultsFetchedLabel.textProperty()
-                                    .bind(service.totalWorkProperty()
+                                    .bind(service.workDoneProperty()
                                                  .map(Number::intValue)
                                                  .map("%d results found"::formatted));
             fetchProgressBox.visibleProperty().bind(service.runningProperty());
@@ -177,16 +197,9 @@ public class MetadataFetchViewController extends FxmlController {
                     .map(stream -> stream.collect(joining(", ")));
     }
 
-    public void setQuery(MetadataQuery query) {
-        this.query.set(query);
-    }
-
-    public void setTaggedAudioFile(TaggedAudioFile taggedAudioFile) {
-        this.taggedAudioFile.set(taggedAudioFile);
-    }
-
-    public TaggedAudioFile selectedTaggedAudioFile() {
-        return selectedTaggedAudioFile.get();
+    @FXML
+    private void cancelFetch(ActionEvent actionEvent) {
+        cancelFetch.set(true);
     }
 
 }

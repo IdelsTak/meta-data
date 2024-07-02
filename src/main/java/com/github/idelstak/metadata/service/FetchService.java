@@ -17,7 +17,9 @@ public class FetchService extends Service<List<TaggedAudioFile>> {
     private static final String DEEZER_BAZE_URL = "https://api.deezer.com";
     private final MetadataQuery query;
 
-    public FetchService(MetadataQuery query) {this.query = query;}
+    public FetchService(MetadataQuery query) {
+        this.query = query;
+    }
 
     @Override
     protected Task<List<TaggedAudioFile>> createTask() {
@@ -45,6 +47,10 @@ public class FetchService extends Service<List<TaggedAudioFile>> {
                     int dataLength = data.length();
 
                     for (int i = 0; i < dataLength; i++) {
+                        if (isCancelled()) {
+                            runLater(() -> updateMessage("Fetch cancelled"));
+                            break;
+                        }
                         int j = i;
                         JSONObject dataObject = data.getJSONObject(j);
                         String title = dataObject.getString("title");
