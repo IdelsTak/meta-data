@@ -1,4 +1,4 @@
-package com.github.idelstak.metadata.views;
+package com.github.idelstak.metadata.model;
 
 import javafx.util.*;
 

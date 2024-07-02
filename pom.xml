@@ -52,6 +52,11 @@
             <artifactId>ikonli-microns-pack</artifactId>
             <version>${ikonli.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-codicons-pack</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.dlsc.gemsfx</groupId>

@@ -1,6 +1,9 @@
 package com.github.idelstak.metadata.views;
 
+import com.github.idelstak.metadata.components.*;
 import com.github.idelstak.metadata.filesystem.*;
+import com.github.idelstak.metadata.model.*;
+import com.github.idelstak.metadata.service.*;
 import javafx.beans.property.*;
 import javafx.collections.*;
 import javafx.concurrent.*;
@@ -12,7 +15,7 @@ import org.slf4j.*;
 import java.io.*;
 import java.util.*;
 
-import static com.github.idelstak.metadata.views.Fxml.*;
+import static com.github.idelstak.metadata.components.Fxml.*;
 import static javafx.application.Platform.*;
 
 public class FilesTableViewController extends FxmlController {
@@ -27,11 +30,7 @@ public class FilesTableViewController extends FxmlController {
     @FXML
     private TableColumn<TaggedAudioFile, String> artistColumn;
     @FXML
-    private TableColumn<TaggedAudioFile, String> yearColumn;
-    @FXML
     private TableColumn<TaggedAudioFile, String> titleColumn;
-    @FXML
-    private TableColumn<TaggedAudioFile, String> trackColumn;
     @FXML
     private TableColumn<TaggedAudioFile, String> albumColumn;
 
@@ -89,11 +88,9 @@ public class FilesTableViewController extends FxmlController {
             resolveService.start();
         });
 
-        trackColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().track()));
         artistColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().artist()));
         titleColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().title()));
         albumColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().album()));
-        yearColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().year()));
 
         filesTableView.setItems(taggedAudioFiles);
 

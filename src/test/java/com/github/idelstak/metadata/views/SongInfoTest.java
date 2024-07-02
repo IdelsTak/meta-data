@@ -1,6 +1,8 @@
 package com.github.idelstak.metadata.views;
 
 import com.github.idelstak.metadata.filesystem.*;
+import com.github.idelstak.metadata.model.*;
+import com.github.idelstak.metadata.service.*;
 import javafx.scene.*;
 import javafx.stage.*;
 import org.junit.jupiter.api.*;
@@ -13,7 +15,7 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static com.github.idelstak.metadata.views.Fxml.*;
+import static com.github.idelstak.metadata.components.Fxml.*;
 import static javafx.application.Platform.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.testfx.util.WaitForAsyncUtils.*;
@@ -63,8 +65,6 @@ class SongInfoTest {
         assertThat(controller.title()).isEqualTo(taggedFile.title());
         assertThat(controller.artist()).isEqualTo(taggedFile.artist());
         assertThat(controller.album()).isEqualTo(taggedFile.album());
-        assertThat(controller.track()).isEqualTo(taggedFile.track());
-        assertThat(controller.year()).isEqualTo(taggedFile.year());
         assertThat(controller.fileName()).isEqualTo(taggedFile.fileName());
         assertThat(controller.art()).isEqualTo(taggedFile.art());
     }

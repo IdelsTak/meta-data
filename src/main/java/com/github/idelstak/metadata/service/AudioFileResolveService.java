@@ -1,5 +1,6 @@
-package com.github.idelstak.metadata.views;
+package com.github.idelstak.metadata.service;
 
+import com.github.idelstak.metadata.model.*;
 import javafx.concurrent.*;
 import org.jaudiotagger.audio.*;
 import org.slf4j.*;
@@ -9,12 +10,12 @@ import java.util.*;
 
 import static javafx.application.Platform.*;
 
-class AudioFileResolveService extends Service<List<TaggedAudioFile>> {
+public class AudioFileResolveService extends Service<List<TaggedAudioFile>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AudioFileResolveService.class);
     private final List<File> files;
 
-    AudioFileResolveService(List<File> files) {
+    public AudioFileResolveService(List<File> files) {
         this.files = files;
     }
 
