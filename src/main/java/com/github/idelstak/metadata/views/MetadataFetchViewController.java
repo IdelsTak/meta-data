@@ -29,9 +29,10 @@ public class MetadataFetchViewController extends FxmlController {
 
     private static final String DEEZER_BAZE_URL = "https://api.deezer.com";
     private static final Logger LOG = LoggerFactory.getLogger(MetadataFetchViewController.class);
-    private static final ToggleGroup TAG_RESULT_TOGGLE_GROUP = new ToggleGroup();
     private final ObjectProperty<MetadataQuery> query;
     private final ObservableList<TaggedAudioFile> tagResults;
+    private final ObjectProperty<TaggedAudioFile> taggedAudioFile;
+    private final ObjectProperty<TaggedAudioFile> selectedTaggedAudioFile;
     @FXML
     private Label finalResultsFetchedLabel;
     @FXML
@@ -47,25 +48,75 @@ public class MetadataFetchViewController extends FxmlController {
     @FXML
     private Button cancelFetchButton;
     @FXML
-    private TableColumn<String, String> tagFieldsColumn;
-    @FXML
-    private TableColumn originalFieldsColumn;
-    @FXML
-    private TableColumn fetchedFieldsColumn;
-    @FXML
-    private TableView tagsComparisonTable;
-    @FXML
     private ProgressBar fetchProgressBar;
+    @FXML
+    private Label newTitleLabel;
+    @FXML
+    private Label newYearLabel;
+    @FXML
+    private Label originalArtistLabel;
+    @FXML
+    private Label originalAlbumLabel;
+    @FXML
+    private Label originalYearLabel;
+    @FXML
+    private AvatarView newArtView;
+    @FXML
+    private Label originalTitleLabel;
+    @FXML
+    private Label newAlbumLabel;
+    @FXML
+    private Label newArtistLabel;
+    @FXML
+    private Label originalTrackLabel;
+    @FXML
+    private AvatarView originalArtView;
+    @FXML
+    private Label newTrackLabel;
 
     public MetadataFetchViewController() {
         query = new SimpleObjectProperty<>();
         tagResults = observableArrayList();
+        taggedAudioFile = new SimpleObjectProperty<>();
+        selectedTaggedAudioFile = new SimpleObjectProperty<>();
     }
 
     @Override
     protected void initialize() {
         finalResultsFetchedLabel.visibleProperty().bind(fetchProgressBox.visibleProperty().not());
-        artResultsTable.getSelectionModel().cellSelectionEnabledProperty().set(true);
+        TableViewSelectionModel<List<TaggedAudioFile>> artResultsSelectionModel = artResultsTable.getSelectionModel();
+        artResultsSelectionModel.cellSelectionEnabledProperty().set(true);
+
+        originalTitleLabel.textProperty().bind(taggedAudioFile.map(TaggedAudioFile::title));
+        originalArtistLabel.textProperty().bind(taggedAudioFile.map(TaggedAudioFile::artist));
+        originalAlbumLabel.textProperty().bind(taggedAudioFile.map(TaggedAudioFile::album));
+        originalTrackLabel.textProperty().bind(taggedAudioFile.map(TaggedAudioFile::track));
+        originalYearLabel.textProperty().bind(taggedAudioFile.map(TaggedAudioFile::year));
+        originalArtView.imageProperty().bind(taggedAudioFile.map(TaggedAudioFile::art));
+
+        newTitleLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::title));
+        newArtistLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::artist));
+        newAlbumLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::album));
+        newTrackLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::track));
+        newYearLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::year));
+        newArtView.imageProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::art));
+
+        //noinspection rawtypes
+        artResultsSelectionModel.getSelectedCells().addListener((Change<? extends TablePosition> change) -> {
+            if (change.next() && change.wasAdded()) {
+                runLater(() -> {
+                    @SuppressWarnings("rawtypes")
+                    TablePosition position = change.getAddedSubList().getFirst();
+                    @SuppressWarnings("rawtypes")
+                    TableColumn column = position.getTableColumn();
+                    int index = artResultsTable.getColumns().indexOf(column);
+                    List<TaggedAudioFile> files = artResultsTable.getItems().getFirst();
+                    TaggedAudioFile file = index >= 0 ? (files.isEmpty() ? null : files.get(index)) : null;
+
+                    selectedTaggedAudioFile.set(file);
+                });
+            }
+        });
 
         queryLabel.textProperty().bind(toQueryText());
         query.addListener((_, _, query) -> {
@@ -121,6 +172,7 @@ public class MetadataFetchViewController extends FxmlController {
                         runLater(() -> {
                             int size = artResultsTable.getColumns().size();
                             if (size > 0) {
+                                artResultsSelectionModel.clearAndSelect(0, artResultsTable.getColumns().getFirst());
                                 artResultsTable.scrollToColumnIndex(size - 1);
                             }
                         });
@@ -143,6 +195,10 @@ public class MetadataFetchViewController extends FxmlController {
 
     void setQuery(MetadataQuery query) {
         this.query.set(query);
+    }
+
+    void setTaggedAudioFile(TaggedAudioFile taggedAudioFile) {
+        this.taggedAudioFile.set(taggedAudioFile);
     }
 
     private static Image downloadImage(String bigCoverUrl) throws IOException {
@@ -276,7 +332,7 @@ public class MetadataFetchViewController extends FxmlController {
         protected Task<List<TableColumn<List<TaggedAudioFile>, TaggedAudioFile>>> createTask() {
             return new Task<>() {
                 @Override
-                protected List<TableColumn<List<TaggedAudioFile>, TaggedAudioFile>> call() throws Exception {
+                protected List<TableColumn<List<TaggedAudioFile>, TaggedAudioFile>> call() {
                     var columns = new ArrayList<TableColumn<List<TaggedAudioFile>, TaggedAudioFile>>();
 
                     for (int j = 0; j < change.getList().size(); j++) {
@@ -298,21 +354,16 @@ public class MetadataFetchViewController extends FxmlController {
 
     private static class TaggedAudioFileCell extends TableCell<List<TaggedAudioFile>, TaggedAudioFile> {
 
-        private final StackPane root = new StackPane();
+        private final HBox root = new HBox();
         private final AvatarView view = new AvatarView();
 
         {
             view.setSize(160.0f);
-            HBox box = new HBox();
-            box.getStyleClass().add("result-box");
-            box.setAlignment(Pos.CENTER);
-            box.getChildren().add(view);
+            root.getStyleClass().add("result-box");
+            root.setAlignment(Pos.CENTER);
+            root.getChildren().add(view);
 
-            RadioButton toggle = new RadioButton();
-            toggle.setToggleGroup(TAG_RESULT_TOGGLE_GROUP);
-            root.getChildren().addAll(toggle, box);
-
-            view.setOnMouseClicked(event -> {
+            view.setOnMouseClicked(_ -> {
                 TableViewSelectionModel<List<TaggedAudioFile>> model = getTableView().getSelectionModel();
                 model.clearAndSelect(0, getTableColumn());
             });

@@ -62,7 +62,8 @@ public class MainViewController extends FxmlController {
         Pair<String, String> albumPair = new QueryPair("ALBUM", controller.album());
         Pair<String, String> yearPair = new QueryPair("YEAR", controller.year());
         MetadataQuery query = new MetadataQuery(titlePair, artistPair, albumPair, yearPair);
-        new MetadataFetchDialog(owner, query).showAndWait();
+        TaggedAudioFile taggedAudioFile = controller.taggedAudioFile();
+        new MetadataFetchDialog(owner, query, taggedAudioFile).showAndWait();
     }
 
     @FXML

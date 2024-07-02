@@ -60,17 +60,22 @@
 .cover-browser .table-row-cell {
     -fx-border-color: white
 }
-    .cover-browser .table-cell {
+.cover-browser .table-cell {
     -fx-border-color: transparent
 }
 .cover-browser > .virtual-flow > .scroll-bar:vertical > .thumb {
-  -fx-background-color: transparent;
+    -fx-background-color: transparent
 }
 .cover-browser > .virtual-flow > .scroll-bar {
     -fx-padding: 0 -9 -12 -9
 }
-.cover-browser > .virtual-flow > .scroll-bar > .increment-button > .increment-arrow, 
-.cover-browser > .virtual-flow > .scroll-bar > .decrement-button > .decrement-arrow {
+.cover-browser > .virtual-flow > .scroll-bar > .increment-button > .increment-arrow, .cover-browser > .virtual-flow > .scroll-bar > .decrement-button > .decrement-arrow {
     -fx-padding: 0;
     -fx-shape: ''
+}
+.underlined {
+    -fx-border-color: transparent transparent lightgray transparent
+}
+.right-padded {
+    -fx-padding: 0 24px 0 0
 }

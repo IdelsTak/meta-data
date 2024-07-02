@@ -81,4 +81,8 @@ public class SongInfoViewController extends FxmlController {
     Image art() {
         return artView.getImage();
     }
+
+    TaggedAudioFile taggedAudioFile() {
+        return taggedAudioFile.get();
+    }
 }

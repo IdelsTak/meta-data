@@ -29,7 +29,7 @@ class MetadataFetchViewTest {
 
         runLater(() -> {
             try {
-                new MetadataFetchDialog(null, query).showAndWait();
+                new MetadataFetchDialog(null, query, null).showAndWait();
             } catch (IOException e) {
                 fail(e);
             }
