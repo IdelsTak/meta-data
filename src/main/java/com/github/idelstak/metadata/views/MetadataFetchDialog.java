@@ -55,7 +55,7 @@ public class MetadataFetchDialog extends Dialog<ButtonType> {
                     LOG.error("", e);
                     Window owner = writeButton.getScene().getWindow();
                     String message = "Failed to write tags to " + taggedAudioFile.fileName();
-                    alertError(owner, message, e);
+                    Alert.ERROR.show(owner, message, e);
                     event.consume();
                 }
             });
@@ -64,14 +64,4 @@ public class MetadataFetchDialog extends Dialog<ButtonType> {
         return pane;
     }
 
-    private static void alertError(Window owner, String message, Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.initOwner(owner);
-        alert.setHeaderText(message);
-        Label label = new Label(e.getMessage());
-        label.getStyleClass().addAll("error", "expandable");
-        DialogPane pane = alert.getDialogPane();
-        pane.setExpandableContent(label);
-        pane.setExpanded(true);
-    }
 }

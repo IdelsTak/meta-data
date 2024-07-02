@@ -117,11 +117,13 @@ public class TaggedAudioFile {
     }
 
     void writeFrom(TaggedAudioFile taggedAudioFile) throws IOException {
-        Tag tag = audioFile.getTag();
-        LOG.info("Updating tags on: {}", audioFile);
+        if (audioFile == null) {
+            throw new IOException(new IllegalArgumentException("Attempt to use null TaggedAudioFile"));
+        }
 
-        if (audioFile == null || tag == null) {
-            return;
+        Tag tag = audioFile.getTag();
+        if (tag == null) {
+            throw new IOException(new IllegalArgumentException("Attempt to use null Tag from AudioFile"));
         }
 
         try {
@@ -197,7 +199,7 @@ public class TaggedAudioFile {
         return fileName.get();
     }
 
-    private void copy(TaggedAudioFile taggedAudioFile) {
+    void copy(TaggedAudioFile taggedAudioFile) {
         title.set(taggedAudioFile.title());
         artist.set(taggedAudioFile.artist());
         album.set(taggedAudioFile.album());
@@ -215,31 +217,4 @@ public class TaggedAudioFile {
         }
     }
 
-    StringProperty titleProperty() {
-        return title;
-    }
-
-    StringProperty artistProperty() {
-        return artist;
-    }
-
-    StringProperty albumProperty() {
-        return album;
-    }
-
-    StringProperty trackProperty() {
-        return track;
-    }
-
-    StringProperty yearProperty() {
-        return year;
-    }
-
-    StringProperty fileNameProperty() {
-        return fileName;
-    }
-
-    ObjectProperty<Image> artProperty() {
-        return art;
-    }
 }

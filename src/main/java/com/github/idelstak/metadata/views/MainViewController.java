@@ -1,5 +1,6 @@
 package com.github.idelstak.metadata.views;
 
+import javafx.beans.binding.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -23,15 +24,23 @@ public class MainViewController extends FxmlController {
     private Label spacerLabel;
     @FXML
     private SplitPane mainSplitPane;
+    @FXML
+    private Button writeMetadataButton;
+    @FXML
+    private Button fetchMetadataButton;
 
     @Override
-    protected void initialize() {
+    protected void initialize() throws IOException {
         spacerLabel.skinProperty().addListener(_ -> runLater(() -> {
             try {
                 loadViews();
+                FilesTableViewController controller = (FilesTableViewController) FILES_TABLE_VIEW.controller();
+                BooleanBinding noFileSelected = controller.fileSelected().not();
+                writeMetadataButton.disableProperty().bind(noFileSelected);
+                writeMetadataButton.disableProperty().bind(noFileSelected);
+                fetchMetadataButton.disableProperty().bind(noFileSelected);
             } catch (IOException e) {
                 LOG.error("", e);
-                throw new RuntimeException(e);
             }
         }));
         HBox.setHgrow(spacerLabel, Priority.ALWAYS);
@@ -53,6 +62,15 @@ public class MainViewController extends FxmlController {
 
     private Node songInfoPane() throws IOException {
         return SONG_INFO_VIEW.root();
+    }
+
+    @FXML
+    private void writeMetadata(ActionEvent actionEvent) throws IOException {
+        SongInfoViewController controller = (SongInfoViewController) SONG_INFO_VIEW.controller();
+        TaggedAudioFile updatedTaggedAudioFile = controller.updatedTaggedAudioFile();
+        FilesTableViewController filesController = (FilesTableViewController) FILES_TABLE_VIEW.controller();
+        filesController.updateView(updatedTaggedAudioFile);
+        actionEvent.consume();
     }
 
     @FXML

@@ -25,13 +25,13 @@
               </graphic>
            </Button>
            <Separator orientation="VERTICAL" visible="false" />
-           <Button>
+           <Button fx:id="writeMetadataButton" onAction="#writeMetadata">
               <graphic>
                   <FontIcon style="-fx-icon-code: bx-save;" />
               </graphic>
            </Button>
            <Separator orientation="VERTICAL" visible="false" />
-           <Button onAction="#fetchMetadata">
+           <Button fx:id="fetchMetadataButton" onAction="#fetchMetadata">
               <graphic>
                   <FontIcon style="-fx-icon-code: bx-cloud-download;" />
               </graphic>

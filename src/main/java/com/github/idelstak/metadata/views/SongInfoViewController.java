@@ -59,6 +59,23 @@ public class SongInfoViewController extends FxmlController {
         this.taggedAudioFile.set(taggedAudioFile);
     }
 
+    TaggedAudioFile taggedAudioFile() {
+        return taggedAudioFile.get();
+    }
+
+    TaggedAudioFile updatedTaggedAudioFile() {
+        TaggedAudioFile editedFile = new TaggedAudioFile(title(),
+                                                         artist(),
+                                                         album(),
+                                                         track(),
+                                                         year(),
+                                                         art(),
+                                                         fileName());
+        TaggedAudioFile updatedFile = this.taggedAudioFile.get();
+        updatedFile.copy(editedFile);
+        return updatedFile;
+    }
+
     String title() {
         return titleField.getText();
     }
@@ -79,15 +96,11 @@ public class SongInfoViewController extends FxmlController {
         return yearField.getText();
     }
 
-    String fileName() {
-        return fileNameField.getText();
-    }
-
     Image art() {
         return artView.getImage();
     }
 
-    TaggedAudioFile taggedAudioFile() {
-        return taggedAudioFile.get();
+    String fileName() {
+        return fileNameField.getText();
     }
 }

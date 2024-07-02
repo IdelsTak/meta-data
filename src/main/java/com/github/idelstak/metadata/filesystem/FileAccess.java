@@ -25,7 +25,8 @@ public class FileAccess {
     }
 
     public static boolean isAudioFile(File file) {
-        return file.getName().toLowerCase().endsWith(".mp3");
+        String lowerCaseName = file.getName().toLowerCase();
+        return lowerCaseName.endsWith(".mp3") || lowerCaseName.endsWith(".flac");
     }
 
     static void deleteDirectoryRecursively(File directory) throws IOException {
