@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 import org.slf4j.*;
 
+import java.io.*;
+
 import static javafx.application.Platform.*;
 
 public class SongInfoViewController extends FxmlController {
@@ -63,7 +65,7 @@ public class SongInfoViewController extends FxmlController {
         return taggedAudioFile.get();
     }
 
-    TaggedAudioFile updatedTaggedAudioFile() {
+    TaggedAudioFile updateTaggedAudioFile() throws IOException {
         TaggedAudioFile editedFile = new TaggedAudioFile(title(),
                                                          artist(),
                                                          album(),
@@ -72,7 +74,7 @@ public class SongInfoViewController extends FxmlController {
                                                          art(),
                                                          fileName());
         TaggedAudioFile updatedFile = this.taggedAudioFile.get();
-        updatedFile.copy(editedFile);
+        updatedFile.writeFrom(editedFile);
         return updatedFile;
     }
 

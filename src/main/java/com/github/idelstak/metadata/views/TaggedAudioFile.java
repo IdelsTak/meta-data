@@ -199,7 +199,7 @@ public class TaggedAudioFile {
         return fileName.get();
     }
 
-    void copy(TaggedAudioFile taggedAudioFile) {
+    private void copy(TaggedAudioFile taggedAudioFile) {
         title.set(taggedAudioFile.title());
         artist.set(taggedAudioFile.artist());
         album.set(taggedAudioFile.album());

@@ -67,7 +67,7 @@ public class MainViewController extends FxmlController {
     @FXML
     private void writeMetadata(ActionEvent actionEvent) throws IOException {
         SongInfoViewController controller = (SongInfoViewController) SONG_INFO_VIEW.controller();
-        TaggedAudioFile updatedTaggedAudioFile = controller.updatedTaggedAudioFile();
+        TaggedAudioFile updatedTaggedAudioFile = controller.updateTaggedAudioFile();
         FilesTableViewController filesController = (FilesTableViewController) FILES_TABLE_VIEW.controller();
         filesController.updateView(updatedTaggedAudioFile);
         actionEvent.consume();
