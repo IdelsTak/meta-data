@@ -47,6 +47,6 @@
          </styleClass></HBox>
    </bottom>
    <center>
-      <SplitPane fx:id="mainSplitPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+      <SplitPane fx:id="mainSplitPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" />
    </center>
 </BorderPane>
