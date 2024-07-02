@@ -1,8 +1,17 @@
-.root {
-    -fx-font-family: "SF Pro Display";
-    -fx-font-size: 1.2em
+@font-face{
+    font-family: "Roboto";
+    font-weight: normal;
+    src: url("fonts/roboto/Roboto-Regular.ttf") type("truetype");
 }
-
+@font-face{
+    font-family: "Roboto";
+    font-weight: bold;
+    src: url("fonts/roboto/Roboto-Bold.ttf") type("truetype");
+}
+.root {
+    -fx-font-family: 'Roboto';
+    -fx-font-size: 1.1em
+}
 .main-tool-bar .ikonli-font-icon {
     -fx-icon-size: 24px
 }
@@ -52,14 +61,13 @@
     -fx-border-color: transparent
 }
 .cover-browser .scroll-bar:vertical {
-    visibility: hidden;
+    visibility: hidden
 }
-.cover-browser > .virtual-flow > .scroll-bar:horizontal {
+.cover-browser > .virtual-flow > .scroll-bar {
     -fx-padding: 0 -9 -12 -9
 }
-.cover-browser > .virtual-flow > .scroll-bar:vertical > .increment-button > .increment-arrow,
-.cover-browser > .virtual-flow > .scroll-bar:vertical > .decrement-button > .decrement-arrow,
-.cover-browser > .virtual-flow > .scroll-bar:horizontal > .increment-button > .increment-arrow, .cover-browser > .virtual-flow > .scroll-bar:horizontal > .decrement-button > .decrement-arrow {
+.cover-browser > .virtual-flow > .scroll-bar > .increment-button > .increment-arrow, 
+.cover-browser > .virtual-flow > .scroll-bar > .decrement-button > .decrement-arrow {
     -fx-padding: 0;
     -fx-shape: ''
 }
