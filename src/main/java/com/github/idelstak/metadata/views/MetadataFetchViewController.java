@@ -73,12 +73,7 @@ public class MetadataFetchViewController extends FxmlController {
                 return;
             }
 
-            Pair<String, String> titlePair = query.title();
-            if (titlePair == null) {
-                return;
-            }
-
-            var service = new FetchService(query);
+            FetchService service = new FetchService(query);
             finalResultsFetchedLabel.textProperty()
                                     .bind(service.totalWorkProperty()
                                                  .map(Number::intValue)
@@ -119,7 +114,7 @@ public class MetadataFetchViewController extends FxmlController {
 
                     new Thread(() -> {
                         try {
-                            Thread.sleep(300L);
+                            Thread.sleep(100L);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
                         }
@@ -190,18 +185,7 @@ public class MetadataFetchViewController extends FxmlController {
 
                     HttpUrl.Builder builder = httpUrl.newBuilder();
                     builder.addPathSegment("search");
-
-                    StringJoiner parameters = new StringJoiner(" ");
-                    Pair<String, String> queryPair = query.title();
-                    if (queryPair != null) {
-                        parameters.add("track:\"%s\"".formatted(queryPair.getValue()));
-                    }
-                    queryPair = query.artist();
-                    if (queryPair != null) {
-                        parameters.add("artist:\"%s\"".formatted(queryPair.getValue()));
-                    }
-
-                    builder.addQueryParameter("q", parameters.toString());
+                    builder.addQueryParameter("q", parameters(query));
 
                     httpUrl = builder.build();
                     Request request = new Request.Builder().url(httpUrl).build();
@@ -238,6 +222,26 @@ public class MetadataFetchViewController extends FxmlController {
                         }
                     }
                     return taggedAudioFiles;
+                }
+
+                private static String parameters(MetadataQuery query) {
+                    StringJoiner parameters = new StringJoiner(" ", "\"", "\"");
+                    Pair<String, String> queryPair = query.title();
+                    if (queryPair != null) {
+                        //parameters.add("track:\"%s\"".formatted(queryPair.getValue()));
+                        parameters.add(queryPair.getValue());
+                    }
+                    queryPair = query.artist();
+                    if (queryPair != null) {
+                        //parameters.add("artist:\"%s\"".formatted(queryPair.getValue()));
+                        parameters.add(queryPair.getValue());
+                    }
+                    /*queryPair = query.album();
+                    if (queryPair != null) {
+                        //parameters.add("album:\"%s\"".formatted(queryPair.getValue()));
+                        parameters.add(queryPair.getValue());
+                    }*/
+                    return parameters.toString();
                 }
             };
         }
