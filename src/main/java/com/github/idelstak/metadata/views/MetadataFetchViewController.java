@@ -13,6 +13,7 @@ import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView.*;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.util.*;
 import org.slf4j.*;
@@ -96,7 +97,13 @@ public class MetadataFetchViewController extends FxmlController {
     }
 
     public TaggedAudioFile selectedTaggedAudioFile() {
-        return selectedTaggedAudioFile.get();
+        TaggedAudioFile selectedFile = selectedTaggedAudioFile.get();
+        TaggedAudioFile setFile = taggedAudioFile.get();
+        String title = includeTitleCheck.isSelected() ? selectedFile.title() : setFile.title();
+        String artist = includeArtistCheck.isSelected() ? selectedFile.artist() : setFile.artist();
+        String album = includeAlbumCheck.isSelected() ? selectedFile.album() : setFile.album();
+        Image art = includeArtCheck.isSelected() ? selectedFile.art() : setFile.art();
+        return new TaggedAudioFile(title, artist, album, art, setFile.fileName());
     }
 
     @Override
