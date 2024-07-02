@@ -33,12 +33,16 @@ public class MainViewController extends FxmlController {
             }
         }));
         HBox.setHgrow(spacerLabel, Priority.ALWAYS);
-
+        mainSplitPane.heightProperty().addListener((_, _, _) -> runLater(this::updateDividerPosition));
     }
 
     private void loadViews() throws IOException {
         mainSplitPane.getItems().addAll(filesTableView(), songInfoPane());
-        mainSplitPane.setDividerPosition(0, 0.6);
+        updateDividerPosition();
+    }
+
+    private void updateDividerPosition() {
+        mainSplitPane.setDividerPosition(0, 0.9);
     }
 
     private Node filesTableView() throws IOException {

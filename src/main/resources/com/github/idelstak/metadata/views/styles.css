@@ -57,7 +57,10 @@
     -fx-padding: 4px;
     -fx-cursor: hand
 }
-.cover-browser .table-cell {
+.cover-browser .table-row-cell {
+    -fx-border-color: white
+}
+    .cover-browser .table-cell {
     -fx-border-color: transparent
 }
 .cover-browser > .virtual-flow > .scroll-bar:vertical > .thumb {

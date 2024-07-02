@@ -6,14 +6,22 @@
 <?import javafx.scene.layout.*?>
 
 
-<HBox spacing="24.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
+<GridPane hgap="24.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="10.0" vgrow="ALWAYS" />
+   </rowConstraints>
    <children>
-       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="310.0" style="-fx-background-color: lightgray; -fx-background-radius: 16;" HBox.hgrow="NEVER">
+       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="310.0" style="-fx-background-color: lightgray; -fx-background-radius: 16;">
            <children>
                <AvatarView fx:id="artView" arcSize="24.0" size="300.0" />
            </children>
        </StackPane>
-       <GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="6.0" HBox.hgrow="ALWAYS">
+       <GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="6.0" GridPane.columnIndex="1">
            <columnConstraints>
                <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
                <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
@@ -28,9 +36,8 @@
                <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
                <RowConstraints />
                <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
-               <RowConstraints />
+               <RowConstraints vgrow="ALWAYS" />
                <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
-               <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="10.0" vgrow="ALWAYS" />
            </rowConstraints>
            <Label styleClass="bold" text="Title" GridPane.valignment="BOTTOM" />
            <TextField fx:id="titleField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
@@ -49,4 +56,4 @@
    <padding>
       <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
    </padding>
-</HBox>
+</GridPane>
