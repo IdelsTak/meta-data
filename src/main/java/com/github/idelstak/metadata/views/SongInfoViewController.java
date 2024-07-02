@@ -4,12 +4,14 @@ import com.dlsc.gemsfx.*;
 import com.github.idelstak.metadata.components.*;
 import com.github.idelstak.metadata.model.*;
 import javafx.beans.property.*;
+import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import org.slf4j.*;
 
 import java.io.*;
+import java.util.*;
 
 import static javafx.application.Platform.*;
 
@@ -27,6 +29,14 @@ public class SongInfoViewController extends FxmlController {
     private AvatarView artView;
     @FXML
     private TextField fileNameField;
+    @FXML
+    private CheckBox useArtistCheck;
+    @FXML
+    private CheckBox useAlbumCheck;
+    @FXML
+    private CheckBox useTitleCheck;
+    @FXML
+    private Button renameFileButton;
 
     public SongInfoViewController() {taggedAudioFile = new SimpleObjectProperty<>();}
 
@@ -49,6 +59,11 @@ public class SongInfoViewController extends FxmlController {
                 }
             });
         });
+        renameFileButton.disableProperty()
+                        .bind(useTitleCheck.selectedProperty()
+                                           .not()
+                                           .and(useArtistCheck.selectedProperty().not())
+                                           .and(useAlbumCheck.selectedProperty().not()));
     }
 
     void setTaggedAudioFile(TaggedAudioFile taggedAudioFile) {
@@ -85,4 +100,34 @@ public class SongInfoViewController extends FxmlController {
     String fileName() {
         return fileNameField.getText();
     }
+
+    @FXML
+    private void renameFileFromTags(ActionEvent actionEvent) {
+        StringJoiner joiner = new StringJoiner(" - ");
+        String title = useTitleCheck.isSelected() ? title() : "";
+        String artist = useArtistCheck.isSelected() ? artist() : "";
+        String album = useAlbumCheck.isSelected() ? album() : "";
+        if (title != null && !title.isBlank()) {
+            joiner.add(title);
+        }
+        if (artist != null && !artist.isBlank()) {
+            joiner.add(artist);
+        }
+        if (album != null && !album.isBlank()) {
+            joiner.add(album);
+        }
+        String generatedName = joiner.toString();
+        String mime = fileExtension(fileNameField.getText());
+        fileNameField.setText(generatedName + '.' + mime);
+        actionEvent.consume();
+    }
+
+    private static String fileExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex != -1 && lastDotIndex < fileName.length() - 1) {
+            return fileName.substring(lastDotIndex + 1);
+        }
+        return "";
+    }
+
 }

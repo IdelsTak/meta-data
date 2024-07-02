@@ -67,13 +67,12 @@ public class TaggedAudioFile {
         }
     }
 
-    public TaggedAudioFile(
-            String title, String artist, String album, Image art, String fileName) {
+    public TaggedAudioFile(String title, String artist, String album, Image art, String file) {
         this.title = new SimpleStringProperty(title);
         this.artist = new SimpleStringProperty(artist);
         this.album = new SimpleStringProperty(album);
         this.art = new SimpleObjectProperty<>(art);
-        this.fileName = new SimpleStringProperty(fileName);
+        this.fileName = new SimpleStringProperty(file);
     }
 
     @Override
@@ -97,8 +96,8 @@ public class TaggedAudioFile {
         String prefix = TaggedAudioFile.class.getSimpleName() + "[";
         StringJoiner joiner = new StringJoiner(", ", prefix, "]");
         return joiner.add("title=" + title.get())
-                     .add("album=" + album.get())
                      .add("artist=" + artist.get())
+                     .add("album=" + album.get())
                      .add("fileName=" + fileName.get())
                      .add("art=" + art.get())
                      .toString();
