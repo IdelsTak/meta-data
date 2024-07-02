@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 
-<TableView fx:id="filesTableView" minWidth="400.0" prefHeight="480.0" prefWidth="600.0" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.FilesTableViewController">
+<TableView fx:id="filesTableView" minHeight="100.0" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.FilesTableViewController">
   <columns>
     <TableColumn fx:id="trackColumn" prefWidth="62.0" text="Track" />
     <TableColumn fx:id="artistColumn" prefWidth="160.0" text="Artist" />

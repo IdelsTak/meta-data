@@ -7,6 +7,10 @@ module com.github.idelstak.metadata {
     requires com.dlsc.gemsfx;
     requires java.desktop;
     requires org.kordamp.ikonli.boxicons;
+    requires org.kordamp.ikonli.microns;
+    requires org.json;
+    requires okhttp3;
+    requires javafx.swing;
 
     exports com.github.idelstak.metadata to javafx.graphics;
     exports com.github.idelstak.metadata.views to javafx.fxml;

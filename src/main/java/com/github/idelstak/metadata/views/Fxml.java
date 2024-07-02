@@ -9,7 +9,8 @@ import java.net.*;
 public enum Fxml {
     FILES_TABLE_VIEW("/com/github/idelstak/metadata/views/files-table-view.fxml"),
     SONG_INFO_VIEW("/com/github/idelstak/metadata/views/song-info-view.fxml"),
-    MAIN_VIEW("/com/github/idelstak/metadata/views/main-view.fxml");
+    MAIN_VIEW("/com/github/idelstak/metadata/views/main-view.fxml"),
+    METADATA_FETCH_VIEW("/com/github/idelstak/metadata/views/metadata-fetch-view.fxml");
 
     private final String path;
     private Object controller;
@@ -35,4 +36,5 @@ public enum Fxml {
         }
         return controller;
     }
+
 }

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.dlsc.gemsfx.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+<?import java.lang.*?>
+<GridPane hgap="6.0" stylesheets="@styles.css" vgap="6.0" xmlns="http://javafx.com/javafx/22"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.github.idelstak.metadata.views.MetadataFetchViewController">
+    <columnConstraints>
+        <ColumnConstraints minWidth="10.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="50.0"/>
+        <RowConstraints minHeight="-Infinity" prefHeight="180.0"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="6.0"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="6.0"/>
+        <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <padding>
+        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
+    </padding>
+    <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" text="Search results for:"/>
+    <Label fx:id="queryLabel" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+           text="{query}" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2147483647"/>
+    <TableView fx:id="artResultsTable" styleClass="cover-browser" GridPane.columnSpan="2147483647"
+               GridPane.rowIndex="1">
+        <padding>
+            <Insets top="2.0"/>
+        </padding>
+    </TableView>
+    <StackPane GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+        <Label fx:id="finalResultsFetchedLabel" maxWidth="1.7976931348623157E308" text="{x results found}"
+               visible="false" StackPane.alignment="CENTER_LEFT"/>
+        <HBox fx:id="fetchProgressBox" alignment="CENTER_LEFT" spacing="12.0">
+            <ProgressBar fx:id="fetchProgressBar" progress="0.0"/>
+            <Label fx:id="fetchProgressLabel" graphicTextGap="6.0" maxWidth="1.7976931348623157E308"
+                   text="{fetching...}" HBox.hgrow="ALWAYS"/>
+            <Label fx:id="fetchResultsLabel" contentDisplay="RIGHT" graphicTextGap="6.0" text="{x fetched}">
+                <graphic>
+                    <Button fx:id="cancelFetchButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                            minWidth="-Infinity" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0"
+                            style="-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-radius: 12px; -fx-cursor: hand;">
+                        <graphic>
+                            <FontIcon style="-fx-icon-code: mu-cancel;"/>
+                        </graphic>
+                    </Button>
+                </graphic>
+            </Label>
+        </HBox>
+    </StackPane>
+    <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308"
+                maxWidth="1.7976931348623157E308" text="Tags comparison" GridPane.columnSpan="2147483647"
+                GridPane.rowIndex="5">
+        <GridPane vgap="6.0">
+            <columnConstraints>
+                <ColumnConstraints/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="-Infinity" prefHeight="20.0"/>
+                <RowConstraints minHeight="-Infinity" prefHeight="20.0"/>
+                <RowConstraints minHeight="-Infinity" prefHeight="20.0"/>
+                <RowConstraints minHeight="-Infinity" prefHeight="20.0"/>
+                <RowConstraints minHeight="-Infinity" prefHeight="20.0"/>
+                <RowConstraints minHeight="-Infinity" prefHeight="20.0"/>
+                <RowConstraints/>
+            </rowConstraints>
+            <Label maxWidth="1.7976931348623157E308" styleClass="underlined"/>
+            <Label maxWidth="1.7976931348623157E308" text="Original" GridPane.columnIndex="1">
+                <styleClass>
+                    <String fx:value="bold"/>
+                    <String fx:value="underlined"/>
+                </styleClass>
+            </Label>
+            <Label layoutX="136.0" layoutY="16.0" maxWidth="1.7976931348623157E308" text="Fetched"
+                   GridPane.columnIndex="2">
+                <styleClass>
+                    <String fx:value="bold"/>
+                    <String fx:value="underlined"/>
+                </styleClass>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" text="Title" GridPane.rowIndex="1">
+                <styleClass>
+                    <String fx:value="underlined"/>
+                    <String fx:value="bold"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="originalTitleLabel" maxWidth="1.7976931348623157E308" text="{old title}"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <styleClass>
+                    <String fx:value="underlined"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="newTitleLabel" layoutX="138.0" layoutY="46.0" maxWidth="1.7976931348623157E308"
+                   styleClass="underlined" text="{new title}" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            <Label layoutX="228.0" layoutY="46.0" maxWidth="1.7976931348623157E308" text="Artist"
+                   GridPane.rowIndex="2">
+                <styleClass>
+                    <String fx:value="bold"/>
+                    <String fx:value="underlined"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="originalArtistLabel" layoutX="10.0" layoutY="76.0" maxWidth="1.7976931348623157E308"
+                   text="{old artist}" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <styleClass>
+                    <String fx:value="underlined"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="newArtistLabel" layoutX="57.0" layoutY="76.0" maxWidth="1.7976931348623157E308"
+                   styleClass="underlined" text="{new artist}" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <Label layoutX="228.0" layoutY="76.0" maxWidth="1.7976931348623157E308" text="Album"
+                   GridPane.rowIndex="3">
+                <styleClass>
+                    <String fx:value="bold"/>
+                    <String fx:value="underlined"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="originalAlbumLabel" layoutX="10.0" layoutY="106.0" maxWidth="1.7976931348623157E308"
+                   text="{old album}" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <styleClass>
+                    <String fx:value="underlined"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="newAlbumLabel" layoutX="64.0" layoutY="106.0" maxWidth="1.7976931348623157E308"
+                   styleClass="underlined" text="{new album}" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+            <Label layoutX="231.0" layoutY="106.0" maxWidth="1.7976931348623157E308" text="Track"
+                   GridPane.rowIndex="4">
+                <styleClass>
+                    <String fx:value="bold"/>
+                    <String fx:value="underlined"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="originalTrackLabel" layoutX="10.0" layoutY="136.0" maxWidth="1.7976931348623157E308"
+                   text="{old track}" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <styleClass>
+                    <String fx:value="underlined"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="newTrackLabel" layoutX="64.0" layoutY="136.0" maxWidth="1.7976931348623157E308"
+                   styleClass="underlined" text="{new track}" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+            <Label layoutX="231.0" layoutY="136.0" maxWidth="1.7976931348623157E308" text="Year"
+                   GridPane.rowIndex="5">
+                <styleClass>
+                    <String fx:value="bold"/>
+                    <String fx:value="underlined"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="originalYearLabel" layoutX="10.0" layoutY="166.0" maxWidth="1.7976931348623157E308"
+                   text="{old year}" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <styleClass>
+                    <String fx:value="underlined"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <Label fx:id="newYearLabel" layoutX="64.0" layoutY="166.0" maxWidth="1.7976931348623157E308"
+                   styleClass="underlined" text="{new year}" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+            <Label maxWidth="1.7976931348623157E308" text="Art" GridPane.rowIndex="6" GridPane.valignment="TOP">
+                <styleClass>
+                    <String fx:value="bold"/>
+                    <String fx:value="right-padded"/>
+                </styleClass>
+            </Label>
+            <AvatarView fx:id="originalArtView" size="100.0" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            <AvatarView fx:id="newArtView" layoutX="84.0" layoutY="201.0" size="100.0" GridPane.columnIndex="2"
+                        GridPane.rowIndex="6"/>
+        </GridPane>
+    </TitledPane>
+</GridPane>
