@@ -201,6 +201,10 @@ public class MetadataFetchViewController extends FxmlController {
         this.taggedAudioFile.set(taggedAudioFile);
     }
 
+    TaggedAudioFile selectedTaggedAudioFile() {
+        return selectedTaggedAudioFile.get();
+    }
+
     private static Image downloadImage(String bigCoverUrl) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(bigCoverUrl).build();
@@ -284,19 +288,12 @@ public class MetadataFetchViewController extends FxmlController {
                     StringJoiner parameters = new StringJoiner(" ", "\"", "\"");
                     Pair<String, String> queryPair = query.title();
                     if (queryPair != null) {
-                        //parameters.add("track:\"%s\"".formatted(queryPair.getValue()));
                         parameters.add(queryPair.getValue());
                     }
                     queryPair = query.artist();
                     if (queryPair != null) {
-                        //parameters.add("artist:\"%s\"".formatted(queryPair.getValue()));
                         parameters.add(queryPair.getValue());
                     }
-                    /*queryPair = query.album();
-                    if (queryPair != null) {
-                        //parameters.add("album:\"%s\"".formatted(queryPair.getValue()));
-                        parameters.add(queryPair.getValue());
-                    }*/
                     return parameters.toString();
                 }
             };

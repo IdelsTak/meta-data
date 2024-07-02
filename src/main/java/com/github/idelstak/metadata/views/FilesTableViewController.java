@@ -104,20 +104,14 @@ public class FilesTableViewController extends FxmlController {
         TableViewSelectionModel<TaggedAudioFile> selectionModel = filesTableView.getSelectionModel();
         ReadOnlyObjectProperty<TaggedAudioFile> itemProperty = selectionModel.selectedItemProperty();
         itemProperty.addListener((_, _, taggedAudioFile) -> {
-            if (taggedAudioFile == null) {
-                return;
-            }
-
-            SongInfoViewController controller;
-            try {
-                controller = (SongInfoViewController) SONG_INFO_VIEW.controller();
-            } catch (IOException e) {
-                LOG.error("", e);
-                throw new RuntimeException(e);
-            }
-
-            //runLater(() -> controller.setTaggedAudioFile(taggedAudioFile));
-            controller.setTaggedAudioFile(taggedAudioFile);
+            runLater(() -> {
+                try {
+                    SongInfoViewController controller = (SongInfoViewController) SONG_INFO_VIEW.controller();
+                    controller.setTaggedAudioFile(taggedAudioFile);
+                } catch (IOException e) {
+                    LOG.error("", e);
+                }
+            });
         });
     }
 
@@ -132,5 +126,25 @@ public class FilesTableViewController extends FxmlController {
 
     int audioFilesCount() {
         return audioFilesCount.get();
+    }
+
+    void updateView(TaggedAudioFile taggedAudioFile) {
+        taggedAudioFiles.stream()
+                        .filter(file -> Objects.equals(file.fileName(), taggedAudioFile.fileName()))
+                        .map(taggedAudioFiles::indexOf)
+                        .findFirst()
+                        .ifPresent(index -> runLater(() -> {
+                            taggedAudioFiles.set(index, taggedAudioFile);
+                            TableViewSelectionModel<TaggedAudioFile> selection = filesTableView.getSelectionModel();
+                            selection.clearSelection();
+                            new Thread(() -> {
+                                try {
+                                    Thread.sleep(500L);
+                                } catch (InterruptedException e) {
+                                    Thread.currentThread().interrupt();
+                                }
+                                selection.select(taggedAudioFile);
+                            }).start();
+                        }));
     }
 }

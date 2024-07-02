@@ -79,3 +79,16 @@
 .right-padded {
     -fx-padding: 0 24px 0 0
 }
+.error {
+    -fx-text-fill: red;
+    -fx-font-weight: bold
+}
+.expandable {
+    -fx-pref-width: 200px;
+    -fx-min-width: 200px;
+    -fx-pref-height: 100px;
+    -fx-min-height: 100px;
+    -fx-alignment: top-left;
+    -fx-wrap-text: true;
+    -fx-padding: 6px 4px
+}

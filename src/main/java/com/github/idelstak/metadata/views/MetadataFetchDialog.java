@@ -3,28 +3,29 @@ package com.github.idelstak.metadata.views;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
+import org.slf4j.*;
 
 import java.io.*;
 
 import static com.github.idelstak.metadata.views.Css.*;
 import static com.github.idelstak.metadata.views.Fxml.*;
+import static javafx.application.Platform.*;
 
-public class MetadataFetchDialog extends Dialog<Void> {
+public class MetadataFetchDialog extends Dialog<ButtonType> {
 
-    private final MetadataQuery query;
-    private final TaggedAudioFile taggedAudioFile;
+    private static final Logger LOG = LoggerFactory.getLogger(MetadataFetchViewController.class);
 
     public MetadataFetchDialog(Window owner, MetadataQuery query, TaggedAudioFile taggedAudioFile) throws IOException {
-        this.query = query;
-        this.taggedAudioFile = taggedAudioFile;
-
         setTitle("Fetch Metadata");
         initOwner(owner);
+        setDialogPane(dialogPane(query, taggedAudioFile));
 
-        setDialogPane(dialogPane());
+        setResultConverter(param -> {
+            return param.getButtonData() == ButtonBar.ButtonData.OK_DONE ? ButtonType.OK : ButtonType.CANCEL;
+        });
     }
 
-    private DialogPane dialogPane() throws IOException {
+    private static DialogPane dialogPane(MetadataQuery query, TaggedAudioFile taggedAudioFile) throws IOException {
         Node root = METADATA_FETCH_VIEW.root();
         MetadataFetchViewController controller = (MetadataFetchViewController) METADATA_FETCH_VIEW.controller();
         controller.setQuery(query);
@@ -39,8 +40,38 @@ public class MetadataFetchDialog extends Dialog<Void> {
         pane.setMaxWidth(900.0f);
         pane.setMaxHeight(700.0f);
         pane.setContent(root);
-        pane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        ButtonType writeType = new ButtonType("Write", ButtonBar.ButtonData.OK_DONE);
+        pane.getButtonTypes().addAll(writeType, ButtonType.CANCEL);
+
+        runLater(() -> {
+            Button writeButton = (Button) pane.lookupButton(writeType);
+            if (writeButton == null) {
+                return;
+            }
+            writeButton.setOnAction(event -> {
+                try {
+                    taggedAudioFile.writeFrom(controller.selectedTaggedAudioFile());
+                } catch (IOException e) {
+                    LOG.error("", e);
+                    Window owner = writeButton.getScene().getWindow();
+                    String message = "Failed to write tags to " + taggedAudioFile.fileName();
+                    alertError(owner, message, e);
+                    event.consume();
+                }
+            });
+        });
 
         return pane;
+    }
+
+    private static void alertError(Window owner, String message, Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initOwner(owner);
+        alert.setHeaderText(message);
+        Label label = new Label(e.getMessage());
+        label.getStyleClass().addAll("error", "expandable");
+        DialogPane pane = alert.getDialogPane();
+        pane.setExpandableContent(label);
+        pane.setExpanded(true);
     }
 }

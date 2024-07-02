@@ -10,9 +10,11 @@ import javafx.util.*;
 import org.slf4j.*;
 
 import java.io.*;
+import java.util.*;
 
 import static com.github.idelstak.metadata.views.Fxml.*;
 import static javafx.application.Platform.*;
+import static javafx.scene.control.ButtonType.*;
 
 public class MainViewController extends FxmlController {
 
@@ -63,7 +65,21 @@ public class MainViewController extends FxmlController {
         Pair<String, String> yearPair = new QueryPair("YEAR", controller.year());
         MetadataQuery query = new MetadataQuery(titlePair, artistPair, albumPair, yearPair);
         TaggedAudioFile taggedAudioFile = controller.taggedAudioFile();
-        new MetadataFetchDialog(owner, query, taggedAudioFile).showAndWait();
+        Optional<ButtonType> selection = new MetadataFetchDialog(owner, query, taggedAudioFile).showAndWait();
+        selection.stream().filter(type -> type == OK).findFirst().ifPresent(_ -> {
+            FilesTableViewController filesController = null;
+            try {
+                filesController = (FilesTableViewController) FILES_TABLE_VIEW.controller();
+            } catch (IOException e) {
+                LOG.error("", e);
+            }
+
+            if (filesController == null) {
+                return;
+            }
+
+            filesController.updateView(taggedAudioFile);
+        });
     }
 
     @FXML

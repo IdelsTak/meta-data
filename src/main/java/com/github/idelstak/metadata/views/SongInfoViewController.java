@@ -5,7 +5,6 @@ import javafx.beans.property.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.scene.shape.*;
 import org.slf4j.*;
 
 import static javafx.application.Platform.*;
@@ -34,18 +33,24 @@ public class SongInfoViewController extends FxmlController {
     @Override
     protected void initialize() {
         taggedAudioFile.addListener((_, _, taggedAudioFile) -> {
-            if (taggedAudioFile == null) {
-                return;
-            }
-
             runLater(() -> {
-                titleField.setText(taggedAudioFile.title());
-                artistField.setText(taggedAudioFile.artist());
-                albumField.setText(taggedAudioFile.album());
-                trackField.setText(taggedAudioFile.track());
-                yearField.setText(taggedAudioFile.year());
-                fileNameField.setText(taggedAudioFile.fileName());
-                artView.setImage(taggedAudioFile.art());
+                if (taggedAudioFile == null) {
+                    titleField.setText(null);
+                    artistField.setText(null);
+                    albumField.setText(null);
+                    trackField.setText(null);
+                    yearField.setText(null);
+                    fileNameField.setText(null);
+                    artView.setImage(null);
+                } else {
+                    titleField.setText(taggedAudioFile.title());
+                    artistField.setText(taggedAudioFile.artist());
+                    albumField.setText(taggedAudioFile.album());
+                    trackField.setText(taggedAudioFile.track());
+                    yearField.setText(taggedAudioFile.year());
+                    fileNameField.setText(taggedAudioFile.fileName());
+                    artView.setImage(taggedAudioFile.art());
+                }
             });
         });
     }

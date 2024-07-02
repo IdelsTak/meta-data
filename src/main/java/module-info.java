@@ -10,6 +10,7 @@ module com.github.idelstak.metadata {
     requires org.kordamp.ikonli.microns;
     requires org.json;
     requires okhttp3;
+    requires javafx.swing;
 
     exports com.github.idelstak.metadata to javafx.graphics;
     exports com.github.idelstak.metadata.views to javafx.fxml;

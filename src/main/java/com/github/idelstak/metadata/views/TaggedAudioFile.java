@@ -1,10 +1,14 @@
 package com.github.idelstak.metadata.views;
 
 import javafx.beans.property.*;
+import javafx.embed.swing.*;
 import javafx.scene.image.*;
 import org.jaudiotagger.audio.*;
+import org.jaudiotagger.audio.exceptions.*;
 import org.jaudiotagger.tag.*;
 import org.jaudiotagger.tag.datatype.*;
+import org.jaudiotagger.tag.id3.valuepair.*;
+import org.jaudiotagger.tag.reference.*;
 import org.slf4j.*;
 
 import javax.imageio.*;
@@ -24,8 +28,10 @@ public class TaggedAudioFile {
     private final StringProperty track;
     private final StringProperty fileName;
     private final ObjectProperty<Image> art;
+    private AudioFile audioFile;
 
     public TaggedAudioFile(AudioFile audioFile) {
+        this.audioFile = audioFile;
         title = new SimpleStringProperty();
         artist = new SimpleStringProperty();
         album = new SimpleStringProperty();
@@ -68,13 +74,7 @@ public class TaggedAudioFile {
     }
 
     public TaggedAudioFile(
-            String title,
-            String artist,
-            String album,
-            String track,
-            String year,
-            Image art,
-            String fileName) {
+            String title, String artist, String album, String track, String year, Image art, String fileName) {
         this.title = new SimpleStringProperty(title);
         this.artist = new SimpleStringProperty(artist);
         this.album = new SimpleStringProperty(album);
@@ -82,6 +82,24 @@ public class TaggedAudioFile {
         this.year = new SimpleStringProperty(year);
         this.art = new SimpleObjectProperty<>(art);
         this.fileName = new SimpleStringProperty(fileName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, album, artist, year, track, fileName, art);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TaggedAudioFile that)) return false;
+        return Objects.equals(title, that.title) &&
+               Objects.equals(album, that.album) &&
+               Objects.equals(artist, that.artist) &&
+               Objects.equals(year, that.year) &&
+               Objects.equals(track, that.track) &&
+               Objects.equals(fileName, that.fileName) &&
+               Objects.equals(art, that.art);
     }
 
     @Override
@@ -98,36 +116,111 @@ public class TaggedAudioFile {
                      .toString();
     }
 
-    StringProperty titleProperty() {
-        return title;
-    }
+    void writeFrom(TaggedAudioFile taggedAudioFile) throws IOException {
+        Tag tag = audioFile.getTag();
+        LOG.info("Updating tags on: {}", audioFile);
 
-    StringProperty artistProperty() {
-        return artist;
-    }
+        if (audioFile == null || tag == null) {
+            return;
+        }
 
-    String track() {
-        return track.get();
-    }
+        try {
+            tag.setField(TITLE, taggedAudioFile.title());
+            tag.setField(ARTIST, taggedAudioFile.artist());
+            tag.setField(ALBUM, taggedAudioFile.album());
+            String track = taggedAudioFile.track();
+            if (track != null) {
+                try {
+                    int parsedInt = Integer.parseInt(track);
+                    tag.setField(TRACK, Integer.toString(parsedInt));
+                } catch (NumberFormatException e) {
+                    LOG.warn("", e);
+                }
+            }
+            String year = taggedAudioFile.year();
+            if (year != null) {
+                try {
+                    int parsedInt = Integer.parseInt(year);
+                    tag.setField(YEAR, Integer.toString(parsedInt));
+                } catch (NumberFormatException e) {
+                    LOG.warn("", e);
+                }
+            }
+            setArtwork(tag, taggedAudioFile.art());
+            AudioFileIO.write(audioFile);
+        } catch (FieldDataInvalidException | CannotWriteException e) {
+            throw new IOException(e);
+        }
 
-    String artist() {
-        return artist.get();
+        taggedAudioFile.fileName.set(fileName());
+
+        copy(taggedAudioFile);
     }
 
     String title() {
         return title.get();
     }
 
+    String artist() {
+        return artist.get();
+    }
+
     String album() {
         return album.get();
+    }
+
+    String track() {
+        return track.get();
     }
 
     String year() {
         return year.get();
     }
 
+    private static void setArtwork(Tag tag, Image art) throws IOException, FieldDataInvalidException {
+        Artwork artwork = new Artwork();
+        byte[] imageData = imageData(art);
+        artwork.setBinaryData(imageData);
+        artwork.setMimeType(ImageFormats.getMimeTypeForBinarySignature(imageData));
+        artwork.setDescription("");
+        artwork.setPictureType(PictureTypes.DEFAULT_ID);
+
+        tag.deleteArtworkField();
+        tag.addField(artwork);
+    }
+
+    Image art() {
+        return art.get();
+    }
+
     String fileName() {
         return fileName.get();
+    }
+
+    private void copy(TaggedAudioFile taggedAudioFile) {
+        title.set(taggedAudioFile.title());
+        artist.set(taggedAudioFile.artist());
+        album.set(taggedAudioFile.album());
+        track.set(taggedAudioFile.track());
+        year.set(taggedAudioFile.year());
+        art.set(taggedAudioFile.art());
+        fileName.set(taggedAudioFile.fileName());
+    }
+
+    private static byte[] imageData(Image art) throws IOException {
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(art, null);
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            ImageIO.write(bufferedImage, "png", out);
+            return out.toByteArray();
+        }
+    }
+
+    StringProperty titleProperty() {
+        return title;
+    }
+
+    StringProperty artistProperty() {
+        return artist;
     }
 
     StringProperty albumProperty() {
@@ -148,9 +241,5 @@ public class TaggedAudioFile {
 
     ObjectProperty<Image> artProperty() {
         return art;
-    }
-
-    Image art() {
-        return art.get();
     }
 }
