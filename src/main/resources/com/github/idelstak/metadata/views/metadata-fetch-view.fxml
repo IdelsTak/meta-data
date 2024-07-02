@@ -47,7 +47,7 @@
         </HBox>
     </StackPane>
     <Label maxWidth="1.7976931348623157E308" text="Tags comparison" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
-    <TableView fx:id="tagsComparisonTable" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
+    <TableView fx:id="tagsComparisonTable" styleClass="cover-browser" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
         <columns>
             <TableColumn fx:id="tagFieldsColumn" prefWidth="75.0" />
             <TableColumn fx:id="originalFieldsColumn" prefWidth="75.0" text="Original" />

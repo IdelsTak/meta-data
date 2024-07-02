@@ -1,12 +1,12 @@
 @font-face{
     font-family: "Roboto";
     font-weight: normal;
-    src: url("fonts/roboto/Roboto-Regular.ttf") type("truetype");
+    src: url("fonts/roboto/Roboto-Regular.ttf");
 }
 @font-face{
     font-family: "Roboto";
     font-weight: bold;
-    src: url("fonts/roboto/Roboto-Bold.ttf") type("truetype");
+    src: url("fonts/roboto/Roboto-Bold.ttf");
 }
 .root {
     -fx-font-family: 'Roboto';
@@ -60,8 +60,8 @@
 .cover-browser .table-cell {
     -fx-border-color: transparent
 }
-.cover-browser .scroll-bar:vertical {
-    visibility: hidden
+.cover-browser > .virtual-flow > .scroll-bar:vertical > .thumb {
+  -fx-background-color: transparent;
 }
 .cover-browser > .virtual-flow > .scroll-bar {
     -fx-padding: 0 -9 -12 -9
