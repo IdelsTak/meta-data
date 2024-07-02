@@ -4,28 +4,19 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.kordamp.ikonli.javafx.*?>
 
-<GridPane hgap="24.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
-   <columnConstraints>
-      <ColumnConstraints minWidth="10.0" />
-      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="10.0" vgrow="ALWAYS" />
-   </rowConstraints>
+
+<HBox spacing="24.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
    <children>
-       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="280.0" style="-fx-background-color: lightgray; -fx-background-radius: 16;">
+       <StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="280.0" style="-fx-background-color: lightgray; -fx-background-radius: 16;" HBox.hgrow="NEVER">
            <children>
                <AvatarView fx:id="artView" arcSize="24.0" size="270.0" />
            </children>
        </StackPane>
-       <GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="6.0" GridPane.columnIndex="1">
+       <GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="6.0" HBox.hgrow="ALWAYS">
            <columnConstraints>
                <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" />
-               <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
-            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="150.0" />
+               <ColumnConstraints hgrow="ALWAYS" prefWidth="150.0" />
            </columnConstraints>
            <rowConstraints>
                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
@@ -39,19 +30,11 @@
                <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
            </rowConstraints>
            <Label styleClass="bold" text="Title" GridPane.valignment="BOTTOM" />
-         <CheckBox fx:id="useTitleCheck" mnemonicParsing="false" GridPane.columnIndex="1" />
            <TextField fx:id="titleField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
            <Label styleClass="bold" text="Artist" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
-         <CheckBox fx:id="useArtistCheck" layoutX="81.0" layoutY="10.0" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
            <TextField fx:id="artistField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
            <Label styleClass="bold" text="Album" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
-         <CheckBox fx:id="useAlbumCheck" layoutX="81.0" layoutY="72.0" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
            <TextField fx:id="albumField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
-         <Button fx:id="renameFileButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#renameFileFromTags" GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
-            <graphic>
-               <FontIcon style="-fx-icon-code: codicon-diff-renamed; -fx-icon-size: 24px; -fx-rotate: 90;" />
-            </graphic>
-         </Button>
            <Label styleClass="bold" text="File Name" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
            <TextField fx:id="fileNameField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="8" />
        </GridPane>
@@ -59,4 +42,4 @@
    <padding>
       <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
    </padding>
-</GridPane>
+</HBox>

@@ -4,6 +4,7 @@ import com.dlsc.gemsfx.*;
 import com.github.idelstak.metadata.components.*;
 import com.github.idelstak.metadata.model.*;
 import com.github.idelstak.metadata.service.*;
+import javafx.beans.binding.*;
 import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.collections.ListChangeListener.*;
@@ -31,6 +32,9 @@ public class MetadataFetchViewController extends FxmlController {
     private final ObjectProperty<TaggedAudioFile> taggedAudioFile;
     private final ObjectProperty<TaggedAudioFile> selectedTaggedAudioFile;
     private final BooleanProperty cancelFetch;
+    private final BooleanProperty allIncludeChecksSelected;
+    private final BooleanProperty noIncludeCheckSelected;
+    private final BooleanProperty someIncludeChecksSelected;
     @FXML
     private Label finalResultsFetchedLabel;
     @FXML
@@ -43,8 +47,6 @@ public class MetadataFetchViewController extends FxmlController {
     private Label queryLabel;
     @FXML
     private TableView<List<TaggedAudioFile>> artResultsTable;
-    @FXML
-    private Button cancelFetchButton;
     @FXML
     private ProgressBar fetchProgressBar;
     @FXML
@@ -63,6 +65,16 @@ public class MetadataFetchViewController extends FxmlController {
     private Label newArtistLabel;
     @FXML
     private AvatarView originalArtView;
+    @FXML
+    private CheckBox includeArtistCheck;
+    @FXML
+    private CheckBox includeArtCheck;
+    @FXML
+    private CheckBox includeTitleCheck;
+    @FXML
+    private CheckBox includeAlbumCheck;
+    @FXML
+    private CheckBox includeAllCheck;
 
     public MetadataFetchViewController() {
         query = new SimpleObjectProperty<>();
@@ -70,6 +82,9 @@ public class MetadataFetchViewController extends FxmlController {
         taggedAudioFile = new SimpleObjectProperty<>();
         selectedTaggedAudioFile = new SimpleObjectProperty<>();
         cancelFetch = new SimpleBooleanProperty();
+        allIncludeChecksSelected = new SimpleBooleanProperty();
+        noIncludeCheckSelected = new SimpleBooleanProperty();
+        someIncludeChecksSelected = new SimpleBooleanProperty();
     }
 
     public void setQuery(MetadataQuery query) {
@@ -99,6 +114,49 @@ public class MetadataFetchViewController extends FxmlController {
         newArtistLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::artist));
         newAlbumLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::album));
         newArtView.imageProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::art));
+
+        // Bind allSelected to true if all individual checkboxes are selected
+        allIncludeChecksSelected.bind(Bindings.createBooleanBinding(() -> includeTitleCheck.isSelected() &&
+                                                                          includeArtistCheck.isSelected() &&
+                                                                          includeAlbumCheck.isSelected() &&
+                                                                          includeArtCheck.isSelected(),
+                                                                    includeTitleCheck.selectedProperty(),
+                                                                    includeArtistCheck.selectedProperty(),
+                                                                    includeAlbumCheck.selectedProperty(),
+                                                                    includeArtCheck.selectedProperty()));
+        // Bind noneSelected to true if none of the individual checkboxes are selected
+        noIncludeCheckSelected.bind(Bindings.createBooleanBinding(() -> !(includeTitleCheck.isSelected() ||
+                                                                          includeArtistCheck.isSelected() ||
+                                                                          includeAlbumCheck.isSelected() ||
+                                                                          includeArtCheck.isSelected()),
+                                                                  includeTitleCheck.selectedProperty(),
+                                                                  includeArtistCheck.selectedProperty(),
+                                                                  includeAlbumCheck.selectedProperty(),
+                                                                  includeArtCheck.selectedProperty()));
+        // Update includeAllCheck selection based on allSelected property
+        allIncludeChecksSelected.addListener((_, _, newValue) -> runLater(() -> {
+            includeAllCheck.setSelected(newValue != null && newValue);
+        }));
+        // Bind someSelected to true if some (but not all) checkboxes are selected
+        someIncludeChecksSelected.bind(noIncludeCheckSelected.or(allIncludeChecksSelected).not());
+        // Update includeAllCheck indeterminate state based on someSelected property
+        someIncludeChecksSelected.addListener((_, _, someSelected) -> runLater(() -> {
+            includeAllCheck.setIndeterminate(someSelected != null && someSelected);
+        }));
+        // Update individual checkboxes based on includeAllCheck selection
+        includeAllCheck.setOnAction(_ -> {
+            if (includeAllCheck.isSelected()) {
+                selectIncludeChecks(true);
+            } else if (includeAllCheck.isIndeterminate()) {
+                selectIncludeChecks(true);
+                runLater(() -> {
+                    includeAllCheck.setIndeterminate(false);
+                    includeAllCheck.setSelected(true);
+                });
+            } else {
+                selectIncludeChecks(false);
+            }
+        });
 
         //noinspection rawtypes
         artResultsSelectionModel.getSelectedCells().addListener((Change<? extends TablePosition> change) -> {
@@ -185,6 +243,14 @@ public class MetadataFetchViewController extends FxmlController {
                 service.start();
             }
         });
+
+    }
+
+    private void selectIncludeChecks(boolean select) {
+        includeTitleCheck.setSelected(select);
+        includeArtistCheck.setSelected(select);
+        includeAlbumCheck.setSelected(select);
+        includeArtCheck.setSelected(select);
     }
 
     private ObservableValue<String> toQueryText() {
@@ -200,6 +266,7 @@ public class MetadataFetchViewController extends FxmlController {
     @FXML
     private void cancelFetch(ActionEvent actionEvent) {
         cancelFetch.set(true);
+        actionEvent.consume();
     }
 
 }
