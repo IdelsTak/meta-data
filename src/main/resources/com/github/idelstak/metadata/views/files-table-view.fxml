@@ -4,11 +4,9 @@
 
 <TableView fx:id="filesTableView" minHeight="100.0" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.FilesTableViewController">
   <columns>
-    <TableColumn fx:id="trackColumn" prefWidth="62.0" text="Track" />
     <TableColumn fx:id="artistColumn" prefWidth="160.0" text="Artist" />
       <TableColumn fx:id="titleColumn" prefWidth="173.0" text="Title" />
       <TableColumn fx:id="albumColumn" prefWidth="175.0" text="Album" />
-      <TableColumn fx:id="yearColumn" prefWidth="63.0" text="Year" />
   </columns>
    <columnResizePolicy>
       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

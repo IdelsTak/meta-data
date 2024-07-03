@@ -1,5 +1,7 @@
-package com.github.idelstak.metadata.views;
+package com.github.idelstak.metadata.components;
 
+import com.github.idelstak.metadata.model.*;
+import com.github.idelstak.metadata.views.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
@@ -7,8 +9,8 @@ import org.slf4j.*;
 
 import java.io.*;
 
-import static com.github.idelstak.metadata.views.Css.*;
-import static com.github.idelstak.metadata.views.Fxml.*;
+import static com.github.idelstak.metadata.components.Css.*;
+import static com.github.idelstak.metadata.components.Fxml.*;
 import static javafx.application.Platform.*;
 
 public class MetadataFetchDialog extends Dialog<ButtonType> {
@@ -34,11 +36,11 @@ public class MetadataFetchDialog extends Dialog<ButtonType> {
         DialogPane pane = new DialogPane();
         pane.getStylesheets().addLast(STYLES.toExternalForm());
         pane.setPrefWidth(900.0f);
-        pane.setPrefHeight(700.0f);
+        pane.setPrefHeight(800.0f);
         pane.setMinWidth(900.0f);
-        pane.setMinHeight(700.0f);
+        pane.setMinHeight(800.0f);
         pane.setMaxWidth(900.0f);
-        pane.setMaxHeight(700.0f);
+        pane.setMaxHeight(800.0f);
         pane.setContent(root);
         ButtonType writeType = new ButtonType("Write", ButtonBar.ButtonData.OK_DONE);
         pane.getButtonTypes().addAll(writeType, ButtonType.CANCEL);

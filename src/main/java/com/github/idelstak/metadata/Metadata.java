@@ -1,6 +1,6 @@
 package com.github.idelstak.metadata;
 
-import com.github.idelstak.metadata.views.*;
+import com.github.idelstak.metadata.components.*;
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.stage.*;

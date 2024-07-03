@@ -1,6 +1,8 @@
 package com.github.idelstak.metadata.views;
 
 import com.dlsc.gemsfx.*;
+import com.github.idelstak.metadata.components.*;
+import com.github.idelstak.metadata.model.*;
 import javafx.beans.property.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -17,10 +19,6 @@ public class SongInfoViewController extends FxmlController {
     private final ObjectProperty<TaggedAudioFile> taggedAudioFile;
     @FXML
     private TextField albumField;
-    @FXML
-    private TextField trackField;
-    @FXML
-    private TextField yearField;
     @FXML
     private TextField titleField;
     @FXML
@@ -40,21 +38,22 @@ public class SongInfoViewController extends FxmlController {
                     titleField.setText(null);
                     artistField.setText(null);
                     albumField.setText(null);
-                    trackField.setText(null);
-                    yearField.setText(null);
                     fileNameField.setText(null);
                     artView.setImage(null);
                 } else {
                     titleField.setText(taggedAudioFile.title());
                     artistField.setText(taggedAudioFile.artist());
                     albumField.setText(taggedAudioFile.album());
-                    trackField.setText(taggedAudioFile.track());
-                    yearField.setText(taggedAudioFile.year());
                     fileNameField.setText(taggedAudioFile.fileName());
                     artView.setImage(taggedAudioFile.art());
                 }
             });
         });
+//        renameFileButton.disableProperty()
+//                        .bind(useTitleCheck.selectedProperty()
+//                                           .not()
+//                                           .and(useArtistCheck.selectedProperty().not())
+//                                           .and(useAlbumCheck.selectedProperty().not()));
     }
 
     void setTaggedAudioFile(TaggedAudioFile taggedAudioFile) {
@@ -66,13 +65,7 @@ public class SongInfoViewController extends FxmlController {
     }
 
     TaggedAudioFile updateTaggedAudioFile() throws IOException {
-        TaggedAudioFile editedFile = new TaggedAudioFile(title(),
-                                                         artist(),
-                                                         album(),
-                                                         track(),
-                                                         year(),
-                                                         art(),
-                                                         fileName());
+        TaggedAudioFile editedFile = new TaggedAudioFile(title(), artist(), album(), art(), fileName());
         TaggedAudioFile updatedFile = this.taggedAudioFile.get();
         updatedFile.writeFrom(editedFile);
         return updatedFile;
@@ -90,14 +83,6 @@ public class SongInfoViewController extends FxmlController {
         return albumField.getText();
     }
 
-    String track() {
-        return trackField.getText();
-    }
-
-    String year() {
-        return yearField.getText();
-    }
-
     Image art() {
         return artView.getImage();
     }
@@ -105,4 +90,34 @@ public class SongInfoViewController extends FxmlController {
     String fileName() {
         return fileNameField.getText();
     }
+
+//    @Deprecated
+//    private void renameFileFromTags(ActionEvent actionEvent) {
+//        StringJoiner joiner = new StringJoiner(" - ");
+//        String title = useTitleCheck.isSelected() ? title() : "";
+//        String artist = useArtistCheck.isSelected() ? artist() : "";
+//        String album = useAlbumCheck.isSelected() ? album() : "";
+//        if (title != null && !title.isBlank()) {
+//            joiner.add(title);
+//        }
+//        if (artist != null && !artist.isBlank()) {
+//            joiner.add(artist);
+//        }
+//        if (album != null && !album.isBlank()) {
+//            joiner.add(album);
+//        }
+//        String generatedName = joiner.toString();
+//        String mime = fileExtension(fileNameField.getText());
+//        fileNameField.setText(generatedName + '.' + mime);
+//        actionEvent.consume();
+//    }
+//
+//    private static String fileExtension(String fileName) {
+//        int lastDotIndex = fileName.lastIndexOf('.');
+//        if (lastDotIndex != -1 && lastDotIndex < fileName.length() - 1) {
+//            return fileName.substring(lastDotIndex + 1);
+//        }
+//        return "";
+//    }
+
 }

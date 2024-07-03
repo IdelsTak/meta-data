@@ -6,37 +6,27 @@
 <?import javafx.scene.layout.*?>
 
 
-<GridPane hgap="24.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
-   <columnConstraints>
-      <ColumnConstraints minWidth="10.0" />
-      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="10.0" vgrow="ALWAYS" />
-   </rowConstraints>
+<HBox spacing="24.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.SongInfoViewController">
    <children>
-       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="310.0" prefWidth="310.0" style="-fx-background-color: lightgray; -fx-background-radius: 16;">
+       <StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="280.0" style="-fx-background-color: lightgray; -fx-background-radius: 16;" HBox.hgrow="NEVER">
            <children>
-               <AvatarView fx:id="artView" arcSize="24.0" size="300.0" />
+               <AvatarView fx:id="artView" arcSize="24.0" size="270.0" />
            </children>
        </StackPane>
-       <GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="6.0" GridPane.columnIndex="1">
+       <GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="6.0" HBox.hgrow="ALWAYS">
            <columnConstraints>
-               <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
-               <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
-            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="150.0" />
+               <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" />
+               <ColumnConstraints hgrow="ALWAYS" prefWidth="150.0" />
            </columnConstraints>
            <rowConstraints>
-               <RowConstraints />
+               <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
                <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
-               <RowConstraints />
+               <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
                <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
-               <RowConstraints />
+               <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
                <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
-               <RowConstraints />
-               <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
-               <RowConstraints vgrow="ALWAYS" />
+            <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
+               <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" vgrow="ALWAYS" />
                <RowConstraints minHeight="-Infinity" prefHeight="30.0" />
            </rowConstraints>
            <Label styleClass="bold" text="Title" GridPane.valignment="BOTTOM" />
@@ -45,15 +35,11 @@
            <TextField fx:id="artistField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
            <Label styleClass="bold" text="Album" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
            <TextField fx:id="albumField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
-           <Label styleClass="bold" text="Track" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
-           <TextField fx:id="trackField" maxHeight="1.7976931348623157E308" GridPane.rowIndex="7" />
-           <Label styleClass="bold" text="Year" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
-           <TextField fx:id="yearField" maxHeight="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-           <Label styleClass="bold" text="File Name" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
-           <TextField fx:id="fileNameField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="9" />
+           <Label styleClass="bold" text="File Name" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
+           <TextField fx:id="fileNameField" maxHeight="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="8" />
        </GridPane>
    </children>
    <padding>
       <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
    </padding>
-</GridPane>
+</HBox>

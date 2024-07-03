@@ -1,4 +1,4 @@
-package com.github.idelstak.metadata.views;
+package com.github.idelstak.metadata.components;
 
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -30,7 +30,7 @@ public enum Fxml {
         controller = loader.getController();
     }
 
-    Object controller() throws IOException {
+    public Object controller() throws IOException {
         if (root == null) {
             load();
         }

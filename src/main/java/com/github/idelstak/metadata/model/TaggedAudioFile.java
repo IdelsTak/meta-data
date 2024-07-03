@@ -1,4 +1,4 @@
-package com.github.idelstak.metadata.views;
+package com.github.idelstak.metadata.model;
 
 import javafx.beans.property.*;
 import javafx.embed.swing.*;
@@ -24,8 +24,6 @@ public class TaggedAudioFile {
     private final StringProperty title;
     private final StringProperty album;
     private final StringProperty artist;
-    private final StringProperty year;
-    private final StringProperty track;
     private final StringProperty fileName;
     private final ObjectProperty<Image> art;
     private AudioFile audioFile;
@@ -35,8 +33,6 @@ public class TaggedAudioFile {
         title = new SimpleStringProperty();
         artist = new SimpleStringProperty();
         album = new SimpleStringProperty();
-        track = new SimpleStringProperty();
-        year = new SimpleStringProperty();
         fileName = new SimpleStringProperty(audioFile.getFile().getName());
         art = new SimpleObjectProperty<>();
 
@@ -45,8 +41,6 @@ public class TaggedAudioFile {
             title.set(tag.getFirst(TITLE));
             artist.set(tag.getFirst(ARTIST));
             album.set(tag.getFirst(ALBUM));
-            track.set(tag.getFirst(TRACK));
-            year.set(tag.getFirst(YEAR));
             try {
                 art.set(firstArtWork(tag));
             } catch (IOException e) {
@@ -73,20 +67,17 @@ public class TaggedAudioFile {
         }
     }
 
-    public TaggedAudioFile(
-            String title, String artist, String album, String track, String year, Image art, String fileName) {
+    public TaggedAudioFile(String title, String artist, String album, Image art, String file) {
         this.title = new SimpleStringProperty(title);
         this.artist = new SimpleStringProperty(artist);
         this.album = new SimpleStringProperty(album);
-        this.track = new SimpleStringProperty(track);
-        this.year = new SimpleStringProperty(year);
         this.art = new SimpleObjectProperty<>(art);
-        this.fileName = new SimpleStringProperty(fileName);
+        this.fileName = new SimpleStringProperty(file);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, album, artist, year, track, fileName, art);
+        return Objects.hash(title, album, artist, fileName, art);
     }
 
     @Override
@@ -96,8 +87,6 @@ public class TaggedAudioFile {
         return Objects.equals(title, that.title) &&
                Objects.equals(album, that.album) &&
                Objects.equals(artist, that.artist) &&
-               Objects.equals(year, that.year) &&
-               Objects.equals(track, that.track) &&
                Objects.equals(fileName, that.fileName) &&
                Objects.equals(art, that.art);
     }
@@ -107,16 +96,14 @@ public class TaggedAudioFile {
         String prefix = TaggedAudioFile.class.getSimpleName() + "[";
         StringJoiner joiner = new StringJoiner(", ", prefix, "]");
         return joiner.add("title=" + title.get())
-                     .add("album=" + album.get())
                      .add("artist=" + artist.get())
-                     .add("year=" + year.get())
-                     .add("track=" + track.get())
+                     .add("album=" + album.get())
                      .add("fileName=" + fileName.get())
                      .add("art=" + art.get())
                      .toString();
     }
 
-    void writeFrom(TaggedAudioFile taggedAudioFile) throws IOException {
+    public void writeFrom(TaggedAudioFile taggedAudioFile) throws IOException {
         if (audioFile == null) {
             throw new IOException(new IllegalArgumentException("Attempt to use null TaggedAudioFile"));
         }
@@ -130,24 +117,6 @@ public class TaggedAudioFile {
             tag.setField(TITLE, taggedAudioFile.title());
             tag.setField(ARTIST, taggedAudioFile.artist());
             tag.setField(ALBUM, taggedAudioFile.album());
-            String track = taggedAudioFile.track();
-            if (track != null) {
-                try {
-                    int parsedInt = Integer.parseInt(track);
-                    tag.setField(TRACK, Integer.toString(parsedInt));
-                } catch (NumberFormatException e) {
-                    LOG.warn("", e);
-                }
-            }
-            String year = taggedAudioFile.year();
-            if (year != null) {
-                try {
-                    int parsedInt = Integer.parseInt(year);
-                    tag.setField(YEAR, Integer.toString(parsedInt));
-                } catch (NumberFormatException e) {
-                    LOG.warn("", e);
-                }
-            }
             setArtwork(tag, taggedAudioFile.art());
             AudioFileIO.write(audioFile);
         } catch (FieldDataInvalidException | CannotWriteException e) {
@@ -159,24 +128,16 @@ public class TaggedAudioFile {
         copy(taggedAudioFile);
     }
 
-    String title() {
+    public String title() {
         return title.get();
     }
 
-    String artist() {
+    public String artist() {
         return artist.get();
     }
 
-    String album() {
+    public String album() {
         return album.get();
-    }
-
-    String track() {
-        return track.get();
-    }
-
-    String year() {
-        return year.get();
     }
 
     private static void setArtwork(Tag tag, Image art) throws IOException, FieldDataInvalidException {
@@ -191,11 +152,11 @@ public class TaggedAudioFile {
         tag.addField(artwork);
     }
 
-    Image art() {
+    public Image art() {
         return art.get();
     }
 
-    String fileName() {
+    public String fileName() {
         return fileName.get();
     }
 
@@ -203,8 +164,6 @@ public class TaggedAudioFile {
         title.set(taggedAudioFile.title());
         artist.set(taggedAudioFile.artist());
         album.set(taggedAudioFile.album());
-        track.set(taggedAudioFile.track());
-        year.set(taggedAudioFile.year());
         art.set(taggedAudioFile.art());
         fileName.set(taggedAudioFile.fileName());
     }

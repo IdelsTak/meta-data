@@ -1,4 +1,4 @@
-package com.github.idelstak.metadata.views;
+package com.github.idelstak.metadata.components;
 
 import javafx.scene.control.*;
 import javafx.stage.*;

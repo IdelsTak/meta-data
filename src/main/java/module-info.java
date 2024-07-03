@@ -8,6 +8,7 @@ module com.github.idelstak.metadata {
     requires java.desktop;
     requires org.kordamp.ikonli.boxicons;
     requires org.kordamp.ikonli.microns;
+    requires org.kordamp.ikonli.codicons;
     requires org.json;
     requires okhttp3;
     requires javafx.swing;
@@ -19,4 +20,8 @@ module com.github.idelstak.metadata {
     opens com.github.idelstak.metadata to javafx.graphics;
     opens com.github.idelstak.metadata.views to javafx.fxml;
     opens com.github.idelstak.metadata.filesystem;
+    exports com.github.idelstak.metadata.components to javafx.fxml;
+    opens com.github.idelstak.metadata.components to javafx.fxml;
+    exports com.github.idelstak.metadata.model to javafx.fxml;
+    opens com.github.idelstak.metadata.model to javafx.fxml;
 }

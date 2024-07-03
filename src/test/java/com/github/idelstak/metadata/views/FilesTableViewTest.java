@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import static com.github.idelstak.metadata.filesystem.SampleFile.*;
-import static com.github.idelstak.metadata.views.Fxml.*;
+import static com.github.idelstak.metadata.components.Fxml.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.testfx.framework.junit5.utils.FXUtils.*;
 import static org.testfx.util.WaitForAsyncUtils.*;
@@ -81,7 +81,7 @@ class FilesTableViewTest {
         // i.e., the TableView items have been fully loaded
         itemsLoadedLatch.await();
 
-        Assertions.assertThat(view).containsRow("2", "The Weeknd", "Too Late", "After Hours", "2020");
+        Assertions.assertThat(view).containsRow("The Weeknd", "Too Late", "After Hours");
 
         view.getItems().removeListener(itemsLoadedListener);
     }
