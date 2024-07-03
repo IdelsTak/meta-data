@@ -12,7 +12,7 @@ It allows you to easily edit tags and fetch them automatically from online datab
 
  - **Edit audio file tags:** Manually edit information like artist, title, album, and even cover art.
  - **Automatic tag fetching:** Connect to online databases like [Deezer](https://www.deezer.com) to automatically retrieve accurate tags for your music files.
- - **Review and edit:** Review and edit fetched tags to ensure they match your preferences or specific needs.
+ - **Review and edit:** Review and edit fetched tags to ensure they match your expected labeling.
  - **Seamless workflow:** The intuitive interface allows you to browse your music library, edit tags for a specific file, and easily initiate tag fetching. With only two steps for editing and writing tags, it can't get any simpler.
 
 ### Screenshots
@@ -35,10 +35,11 @@ The provided screenshots showcase the application's core functionalities:
     - Click the "Add Folder" button to the list all the audio files contained in that folder and its subfolders 
     - View or edit the title, artist, album, and/or cover art information for the song you want to update.
     - Click "Save" to apply the edited tags to your audio file.
-    - The application will search online databases and display matching results.
+    - Or click "Download" and the application will search online databases and display matching results.
  - **Review and Edit (as shown in Screenshot 2):**
-    - Select the desired audio file from the list.
-    - Review the fetched tags, including title, artist, album, and cover art
+    - After clicking "Download" on selecting a specific file from the explorer, the application will list matches using their cover art
+    - Select the desired result from that list of cover art
+    - On selecting a result, you get to compare the fetched tags, including title, artist, album, and cover art with those of your existing file that you pressed "Download" on earlier
     - Include or leave out any fetched tags as it suits you.
  - **Save Changes:**
     - Click "Write" to apply the edited tags to your audio file.
