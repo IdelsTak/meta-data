@@ -4,6 +4,10 @@ I designed **MetaData** to manage the metadata (descriptive information) of your
 
 It allows you to easily edit tags and fetch them automatically from online databases.
 
+### Supported audio files
+
+**Mp3**, **Flac**, **Ogg Vorbis**, **MPa audio**, **M4a**, **M4p audio**, **Aif**, **Wav**, **Wma**, **Dsf**, and **Opus**.
+
 ### Key Features:
 
  - **Edit audio file tags:** Manually edit information like artist, title, album, and even cover art.
