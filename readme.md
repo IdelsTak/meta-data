@@ -23,23 +23,23 @@ The provided screenshots showcase the application's core functionalities:
 
  ![Main screen](./screenshots/main-screenshot_2024-07-03_06-06.jpg)
 
-**Search & Results:** This screenshot demonstrates searching for tags based on a song title. You can see the search query ("Enemy") and retrieved results (25 matches). The application allows you to edit the fetched tags. In this case, the original Album title, Mercury - Acts 1 & 2, is displayed as an unmatched tag. You can choose to include it or not.
+**Search & Results:** This screenshot demonstrates searching for tags based on a song title. You can see the search query ("**Enemy**") and retrieved results (**25 matches)**. The application allows you to edit the fetched tags. In this case, the fetched album title, **Mercury - Acts 1 & 2**, is displayed as an unmatched tag. You can choose to include it or not.
 
  ![Fetch metadata](./screenshots/fetch-screenshot_2024-07-03_06-09.jpg)
 
 ### Getting Started:
 
- - Download the latest release of metadata from the [Releases](https://github.com/IdelsTak/meta-data/releases) section.
- - Install and launch the application.
- - **Explore files (as shown in Screenshot 1):**
-    - Click the "Add Folder" button to the list all the audio files contained in that folder and its subfolders 
+ 1. Download the latest release of metadata from the [Releases](https://github.com/IdelsTak/meta-data/releases) section.
+ 2. Launch the application. e.g. by running `java -jar metadata-1.0.0.jar`
+ 3. **Explore files (as shown in Screenshot 1):**
+    - Click the "**Add Folder**" button to the list all the audio files contained in that folder and its subfolders 
     - View or edit the title, artist, album, and/or cover art information for the song you want to update.
-    - Click "Save" to apply the edited tags to your audio file.
-    - Or click "Download" and the application will search online databases and display matching results.
- - **Review and Edit (as shown in Screenshot 2):**
-    - After clicking "Download" on selecting a specific file from the explorer, the application will list matches using their cover art
+    - Click "**Save**" to apply the edited tags to your audio file.
+    - Or click "**Download**" and the application will search online databases and display matching results.
+ 4. **Review and Edit (as shown in Screenshot 2):**
+    - After clicking "**Download**" on selecting a specific file from the explorer, the application will list matches using their cover art
     - Select the desired result from that list of cover art
-    - On selecting a result, you get to compare the fetched tags, including title, artist, album, and cover art with those of your existing file that you pressed "Download" on earlier
+    - On selecting a result, you get to compare the fetched tags, including title, artist, album, and cover art with those of your existing file that you pressed "**Download**" on earlier
     - Include or leave out any fetched tags as it suits you.
- - **Save Changes:**
-    - Click "Write" to apply the edited tags to your audio file.
+ 5. **Save Changes:**
+    - Click "**Write**" to apply the edited tags to your audio file.
