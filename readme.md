@@ -4,7 +4,7 @@
 
 ### Supported Audio Formats
 
-**MP3**, **FLAC**, **Ogg Vorbis**, **MPA**, **M4A**, **M4P**, **AIF**, **WAV**, **WMA**, **DSF**, **Opus**
+MP3, FLAC, Ogg Vorbis, MPA, M4A, M4P, AIF, WAV, WMA, DSF, Opus
 
 ### Key Features
 
