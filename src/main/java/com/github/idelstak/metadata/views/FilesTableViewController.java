@@ -6,6 +6,7 @@ import com.github.idelstak.metadata.model.*;
 import com.github.idelstak.metadata.service.*;
 import javafx.beans.property.*;
 import javafx.collections.*;
+import javafx.collections.ListChangeListener.*;
 import javafx.concurrent.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -33,17 +34,25 @@ public class FilesTableViewController extends FxmlController {
     private TableColumn<TaggedAudioFile, String> titleColumn;
     @FXML
     private TableColumn<TaggedAudioFile, String> albumColumn;
+    private BooleanProperty cancelFileLoad;
+    private DoubleProperty filesLoadedProperty;
+    private DoubleProperty filesLoadProgressProperty;
+    private StringProperty filesLoadMessageProperty;
+    private DoubleProperty totalFilesLoadingProperty;
+    private BooleanProperty filesLoadingProperty;
 
     public FilesTableViewController() {
         rootDirectory = new SimpleObjectProperty<>();
         taggedAudioFiles = FXCollections.observableArrayList();
         audioFilesCount = new SimpleIntegerProperty();
         fileSelected = new SimpleBooleanProperty();
+        filesLoadMessageProperty = new SimpleStringProperty();
     }
 
     @Override
     protected void initialize() {
-        fileSelected.bind(filesTableView.getSelectionModel().selectedItemProperty().map(Objects::nonNull));
+        TableViewSelectionModel<TaggedAudioFile> filesSelection = filesTableView.getSelectionModel();
+        fileSelected.bind(filesSelection.selectedItemProperty().map(Objects::nonNull));
         rootDirectory.addListener((_, _, directory) -> {
             LOG.debug("root directory set to: {}", directory);
 
@@ -57,8 +66,6 @@ public class FilesTableViewController extends FxmlController {
             } catch (IOException e) {
                 LOG.error("", e);
             }
-
-            LOG.debug("Mapping {} audio mixed to tagged audio mixed...", filesTmp.size());
 
             List<File> files = new ArrayList<>(filesTmp);
             runLater(() -> {
@@ -85,6 +92,28 @@ public class FilesTableViewController extends FxmlController {
                 LOG.debug("ResolveService successfully mapped {} tagged mixed", tagged.size());
             });
 
+            if (cancelFileLoad != null) {
+                cancelFileLoad.addListener((_, _, cancel) -> {
+                    if (cancel != null && cancel) {
+                        resolveService.cancel();
+                    }
+                });
+            }
+            if (filesLoadedProperty != null) {
+                filesLoadedProperty.bind(resolveService.workDoneProperty());
+            }
+            if (filesLoadProgressProperty != null) {
+                filesLoadProgressProperty.bind(resolveService.progressProperty());
+            }
+            if (filesLoadMessageProperty != null) {
+                filesLoadMessageProperty.bind(resolveService.messageProperty());
+            }
+            if (totalFilesLoadingProperty != null) {
+                totalFilesLoadingProperty.bind(resolveService.totalWorkProperty());
+            }
+            if (filesLoadingProperty != null) {
+                filesLoadingProperty.bind(resolveService.runningProperty());
+            }
             resolveService.start();
         });
 
@@ -94,8 +123,7 @@ public class FilesTableViewController extends FxmlController {
 
         filesTableView.setItems(taggedAudioFiles);
 
-        TableViewSelectionModel<TaggedAudioFile> selectionModel = filesTableView.getSelectionModel();
-        ReadOnlyObjectProperty<TaggedAudioFile> itemProperty = selectionModel.selectedItemProperty();
+        ReadOnlyObjectProperty<TaggedAudioFile> itemProperty = filesSelection.selectedItemProperty();
         itemProperty.addListener((_, _, taggedAudioFile) -> {
             runLater(() -> {
                 try {
@@ -105,6 +133,16 @@ public class FilesTableViewController extends FxmlController {
                     LOG.error("", e);
                 }
             });
+        });
+
+        filesTableView.getItems().addListener((Change<? extends TaggedAudioFile> change) -> {
+            if (change.next() && change.wasAdded()) {
+                runLater(() -> {
+                    if (filesSelection.getSelectedItem() == null) {
+                        filesSelection.selectFirst();
+                    }
+                });
+            }
         });
     }
 
@@ -143,5 +181,29 @@ public class FilesTableViewController extends FxmlController {
 
     BooleanProperty fileSelected() {
         return fileSelected;
+    }
+
+    void setFileLoadCancelProperty(BooleanProperty cancelFileLoad) {
+        this.cancelFileLoad = cancelFileLoad;
+    }
+
+    void setFilesLoadedProperty(DoubleProperty filesLoadedProperty) {
+        this.filesLoadedProperty = filesLoadedProperty;
+    }
+
+    void setFilesLoadProgressProperty(DoubleProperty filesLoadProgressProperty) {
+        this.filesLoadProgressProperty = filesLoadProgressProperty;
+    }
+
+    void setFilesLoadMessageProperty(StringProperty filesLoadMessageProperty) {
+        this.filesLoadMessageProperty = filesLoadMessageProperty;
+    }
+
+    void setTotalFilesLoadingProperty(DoubleProperty totalFilesLoadingProperty) {
+        this.totalFilesLoadingProperty = totalFilesLoadingProperty;
+    }
+
+    void setFilesLoadingProperty(BooleanProperty filesLoadingProperty) {
+        this.filesLoadingProperty = filesLoadingProperty;
     }
 }

@@ -32,7 +32,17 @@
          <styleClass>
             <String fx:value="status-bar" />
             <String fx:value="light-border" />
-         </styleClass></HBox>
+         </styleClass>
+         <children>
+            <Label fx:id="statusLabel" text="{status}" HBox.hgrow="ALWAYS" />
+            <Label fx:id="progressLabel" text="{x/y}" />
+            <ProgressBar fx:id="progressBar" progress="0.0" />
+            <Button fx:id="cancelFileLoadButton" mnemonicParsing="false" onAction="#cancelFileLoading" styleClass="cancel-button">
+               <graphic>
+                  <FontIcon />
+               </graphic>
+            </Button>
+         </children></HBox>
    </bottom>
    <center>
       <SplitPane fx:id="mainSplitPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" />

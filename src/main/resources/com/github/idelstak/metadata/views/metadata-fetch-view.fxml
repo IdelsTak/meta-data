@@ -39,9 +39,9 @@
             <Label fx:id="fetchProgressLabel" graphicTextGap="6.0" maxWidth="1.7976931348623157E308" text="{fetching...}" HBox.hgrow="ALWAYS" />
             <Label fx:id="fetchResultsLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" graphicTextGap="6.0" minWidth="-Infinity" prefWidth="150.0" text="{x fetched}">
                 <graphic>
-                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelFetch" prefHeight="24.0" prefWidth="24.0" style="-fx-background-color: transparent; -fx-border-color: lightgray; -fx-border-radius: 12px; -fx-cursor: hand;">
+                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancelFetch" prefHeight="24.0" prefWidth="24.0" styleClass="cancel-button">
                         <graphic>
-                            <FontIcon style="-fx-icon-code: mu-cancel;" />
+                            <FontIcon />
                         </graphic>
                     </Button>
                 </graphic>
