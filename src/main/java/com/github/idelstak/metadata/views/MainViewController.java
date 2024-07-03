@@ -117,6 +117,7 @@ public class MainViewController extends FxmlController {
 
     @FXML
     private void cancelFileLoading(ActionEvent actionEvent) {
+        cancelFileLoad.setValue(null);
         cancelFileLoad.set(true);
         actionEvent.consume();
     }
