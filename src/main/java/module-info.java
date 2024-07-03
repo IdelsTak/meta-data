@@ -3,6 +3,7 @@ module com.github.idelstak.metadata {
     requires javafx.graphics;
     requires javafx.fxml;
     requires javafx.controls;
+    requires javafx.swing;
     requires jaudiotagger;
     requires com.dlsc.gemsfx;
     requires java.desktop;
@@ -11,7 +12,6 @@ module com.github.idelstak.metadata {
     requires org.kordamp.ikonli.codicons;
     requires org.json;
     requires okhttp3;
-    requires javafx.swing;
 
     exports com.github.idelstak.metadata to javafx.graphics;
     exports com.github.idelstak.metadata.views to javafx.fxml;

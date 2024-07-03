@@ -3,6 +3,7 @@ package com.github.idelstak.metadata.views;
 import com.github.idelstak.metadata.components.*;
 import com.github.idelstak.metadata.model.*;
 import javafx.beans.binding.*;
+import javafx.beans.property.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -22,6 +23,12 @@ import static javafx.scene.control.ButtonType.*;
 public class MainViewController extends FxmlController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MainViewController.class);
+    private final BooleanProperty cancelFileLoad;
+    private final DoubleProperty filesLoadedProperty;
+    private final DoubleProperty filesLoadProgressProperty;
+    private final StringProperty filesLoadMessageProperty;
+    private final DoubleProperty totalFilesLoadingProperty;
+    private final BooleanProperty filesLoadingProperty;
     @FXML
     private Label spacerLabel;
     @FXML
@@ -30,6 +37,23 @@ public class MainViewController extends FxmlController {
     private Button writeMetadataButton;
     @FXML
     private Button fetchMetadataButton;
+    @FXML
+    private ProgressBar progressBar;
+    @FXML
+    private Label progressLabel;
+    @FXML
+    private Label statusLabel;
+    @FXML
+    private Button cancelFileLoadButton;
+
+    public MainViewController() {
+        cancelFileLoad = new SimpleBooleanProperty();
+        filesLoadedProperty = new SimpleDoubleProperty();
+        filesLoadProgressProperty = new SimpleDoubleProperty();
+        filesLoadMessageProperty = new SimpleStringProperty();
+        totalFilesLoadingProperty = new SimpleDoubleProperty();
+        filesLoadingProperty = new SimpleBooleanProperty();
+    }
 
     @Override
     protected void initialize() throws IOException {
@@ -47,6 +71,31 @@ public class MainViewController extends FxmlController {
         }));
         HBox.setHgrow(spacerLabel, Priority.ALWAYS);
         mainSplitPane.heightProperty().addListener((_, _, _) -> runLater(this::updateDividerPosition));
+
+        progressBar.progressProperty().bind(filesLoadProgressProperty);
+        progressLabel.textProperty().bind(filesLoadedProperty.map(Number::intValue).map(done -> {
+            return "%d/%d loaded".formatted(done, (int) totalFilesLoadingProperty.get());
+        }));
+        statusLabel.textProperty().bind(filesLoadMessageProperty);
+        progressBar.visibleProperty().bind(filesLoadingProperty);
+        progressLabel.visibleProperty().bind(filesLoadingProperty);
+        cancelFileLoadButton.visibleProperty().bind(filesLoadingProperty);
+        filesLoadingProperty.addListener((_, _, loading) -> {
+            if (loading != null) {
+                if (!loading) {
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(5000L);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                        runLater(() -> statusLabel.setVisible(false));
+                    }).start();
+                } else {
+                    runLater(() -> statusLabel.setVisible(true));
+                }
+            }
+        });
     }
 
     private void loadViews() throws IOException {
@@ -64,6 +113,12 @@ public class MainViewController extends FxmlController {
 
     private Node songInfoPane() throws IOException {
         return SONG_INFO_VIEW.root();
+    }
+
+    @FXML
+    private void cancelFileLoading(ActionEvent actionEvent) {
+        cancelFileLoad.set(true);
+        actionEvent.consume();
     }
 
     @FXML
@@ -112,6 +167,12 @@ public class MainViewController extends FxmlController {
 
         if (directory != null) {
             FilesTableViewController controller = (FilesTableViewController) FILES_TABLE_VIEW.controller();
+            controller.setFileLoadCancelProperty(cancelFileLoad);
+            controller.setFilesLoadedProperty(filesLoadedProperty);
+            controller.setFilesLoadProgressProperty(filesLoadProgressProperty);
+            controller.setFilesLoadMessageProperty(filesLoadMessageProperty);
+            controller.setTotalFilesLoadingProperty(totalFilesLoadingProperty);
+            controller.setFilesLoadingProperty(filesLoadingProperty);
             controller.setDirectory(directory);
         }
     }

@@ -1,5 +1,6 @@
 package com.github.idelstak.metadata.model;
 
+import com.github.idelstak.metadata.components.*;
 import javafx.beans.property.*;
 import javafx.embed.swing.*;
 import javafx.scene.image.*;
@@ -14,8 +15,10 @@ import org.slf4j.*;
 import javax.imageio.*;
 import java.awt.image.*;
 import java.io.*;
+import java.text.*;
 import java.util.*;
 
+import static javafx.application.Platform.*;
 import static org.jaudiotagger.tag.FieldKey.*;
 
 public class TaggedAudioFile {
@@ -44,7 +47,7 @@ public class TaggedAudioFile {
             try {
                 art.set(firstArtWork(tag));
             } catch (IOException e) {
-                LOG.error("", e);
+                LOG.error("Error loading artwork", e);
             }
         }
     }
@@ -77,40 +80,43 @@ public class TaggedAudioFile {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, album, artist, fileName, art);
+        return Objects.hash(title.get(), album.get(), artist.get(), fileName.get(), art.get());
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TaggedAudioFile that)) return false;
-        return Objects.equals(title, that.title) &&
-               Objects.equals(album, that.album) &&
-               Objects.equals(artist, that.artist) &&
-               Objects.equals(fileName, that.fileName) &&
-               Objects.equals(art, that.art);
+        return Objects.equals(title.get(), that.title.get()) &&
+               Objects.equals(album.get(), that.album.get()) &&
+               Objects.equals(artist.get(), that.artist.get()) &&
+               Objects.equals(fileName.get(), that.fileName.get()) &&
+               new ImageComparator(art.get(), that.art.get()).equals();
     }
 
     @Override
     public String toString() {
-        String prefix = TaggedAudioFile.class.getSimpleName() + "[";
-        StringJoiner joiner = new StringJoiner(", ", prefix, "]");
+        String artDescription = MessageFormat.format("art[width={0}, height={1}]",
+                                                     art.get() != null ? art.get().getWidth() : "n/a",
+                                                     art.get() != null ? art.get().getHeight() : "n/a");
+        String name = TaggedAudioFile.class.getSimpleName();
+        StringJoiner joiner = new StringJoiner(", ", name + "[", "]");
         return joiner.add("title=" + title.get())
                      .add("artist=" + artist.get())
                      .add("album=" + album.get())
                      .add("fileName=" + fileName.get())
-                     .add("art=" + art.get())
+                     .add(artDescription)
                      .toString();
     }
 
     public void writeFrom(TaggedAudioFile taggedAudioFile) throws IOException {
         if (audioFile == null) {
-            throw new IOException(new IllegalArgumentException("Attempt to use null TaggedAudioFile"));
+            throw new IOException("AudioFile is null.");
         }
 
         Tag tag = audioFile.getTag();
         if (tag == null) {
-            throw new IOException(new IllegalArgumentException("Attempt to use null Tag from AudioFile"));
+            throw new IOException("Tag is null in AudioFile.");
         }
 
         try {
@@ -120,10 +126,15 @@ public class TaggedAudioFile {
             setArtwork(tag, taggedAudioFile.art());
             AudioFileIO.write(audioFile);
         } catch (FieldDataInvalidException | CannotWriteException e) {
-            throw new IOException(e);
+            throw new IOException("Error writing tag data.", e);
         }
 
-        taggedAudioFile.fileName.set(fileName());
+        StringProperty taggedFileName = taggedAudioFile.fileName;
+        if (taggedFileName.isNull().get() || taggedFileName.isEmpty().get()) {
+            taggedFileName.set(fileName());
+        } else {
+            fileName.set(taggedFileName.get());
+        }
 
         copy(taggedAudioFile);
     }
@@ -161,11 +172,13 @@ public class TaggedAudioFile {
     }
 
     private void copy(TaggedAudioFile taggedAudioFile) {
-        title.set(taggedAudioFile.title());
-        artist.set(taggedAudioFile.artist());
-        album.set(taggedAudioFile.album());
-        art.set(taggedAudioFile.art());
-        fileName.set(taggedAudioFile.fileName());
+        runLater(() -> {
+            title.set(taggedAudioFile.title());
+            artist.set(taggedAudioFile.artist());
+            album.set(taggedAudioFile.album());
+            art.set(taggedAudioFile.art());
+            fileName.set(taggedAudioFile.fileName());
+        });
     }
 
     private static byte[] imageData(Image art) throws IOException {

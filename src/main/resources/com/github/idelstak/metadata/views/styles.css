@@ -10,14 +10,52 @@
 }
 .root {
     -fx-font-family: 'Roboto';
-    -fx-font-size: 1.1em
+    -fx-font-size: 1.1em;
+    -fx-error-base: red
 }
 .main-tool-bar .ikonli-font-icon {
     -fx-icon-size: 24px
 }
 .status-bar {
-    -fx-pref-height: 32px
+    -fx-pref-height: 32px;
+    -fx-alignment: center-left;
+    -fx-padding: 6px;
+    -fx-spacing: 12px
 }
+.status-bar .label {
+    -fx-max-width: 'Infinity'
+}
+.status-bar .progress-bar {
+    -fx-min-width: 150px;
+    -fx-pref-width: 150px
+}
+.cancel-button {
+    -fx-background-color: transparent;
+    -fx-border-color: lightgray;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-cursor: hand;
+    -fx-pref-width: 18px;
+    -fx-pref-height: 18px;
+    -fx-min-width: 18px;
+    -fx-min-height: 18px;
+    -fx-max-width: 18px;
+    -fx-max-height: 18px
+}
+.cancel-button:hover {
+    -fx-background-color: ladder(-fx-error-base, derive(-fx-error-base, 20%) 20%, derive(-fx-error-base, 30%) 35%, derive(-fx-error-base, 40%) 50%)
+}
+.cancel-button:pressed, .cancel-button:armed {
+    -fx-background-color: derive(-fx-error-base, -6%)
+}
+.cancel-button:focused {
+    -fx-border-color: -fx-focus-color;
+}
+.cancel-button .ikonli-font-icon {
+    -fx-icon-code: mu-cancel;
+    -fx-icon-size: 12px
+}
+
 .light-border {
     -fx-border-color: lightgray;
     -fx-border-width: 0.3px 0 0 0
@@ -91,4 +129,44 @@
     -fx-alignment: top-left;
     -fx-wrap-text: true;
     -fx-padding: 6px 4px
+}
+.legend-box {
+    -fx-padding: 0 0 0 6px;
+    -fx-alignment: center-left;
+    -fx-spacing: 2px
+}
+.legend-square-matched {
+    -fx-fill: green
+}
+.legend-square-unmatched {
+    -fx-fill: #f74b03
+}
+.fetch-field {
+    -fx-text-fill: #f74b03
+}
+.fetch-field:matched {
+    -fx-text-fill: green
+}
+.art-pane, .fetch-art-pane {
+    -fx-insets: 6px 0 0 0;
+    -fx-background-radius: 16px;
+    -fx-pref-width: 240px;
+    -fx-pref-height: 240px;
+    -fx-min-width: 240px;
+    -fx-min-height: 240px;
+    -fx-max-width: 240px;
+    -fx-max-height: 240px
+}
+.art-pane {
+    -fx-background-color: lightgray
+}
+.art-pane .avatar-view, .fetch-art-pane .avatar-view {
+    -fx-avatar-arc-size: 24px;
+    -fx-avatar-size: 230px
+}
+.fetch-art-pane {
+    -fx-background-color: #f74b03
+}
+.fetch-art-pane:matched {
+    -fx-background-color: green
 }
