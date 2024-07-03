@@ -92,3 +92,43 @@
     -fx-wrap-text: true;
     -fx-padding: 6px 4px
 }
+.legend-box {
+    -fx-padding: 0 0 0 6px;
+    -fx-alignment: center-left;
+    -fx-spacing: 2px
+}
+.legend-square-matched {
+    -fx-fill: green
+}
+.legend-square-unmatched {
+    -fx-fill: #f74b03
+}
+.fetch-field {
+    -fx-text-fill: #f74b03
+}
+.fetch-field:matched {
+    -fx-text-fill: green
+}
+.art-pane, .fetch-art-pane {
+    -fx-insets: 6px 0 0 0;
+    -fx-background-radius: 16px;
+    -fx-pref-width: 240px;
+    -fx-pref-height: 240px;
+    -fx-min-width: 240px;
+    -fx-min-height: 240px;
+    -fx-max-width: 240px;
+    -fx-max-height: 240px
+}
+.art-pane {
+    -fx-background-color: lightgray
+}
+.art-pane .avatar-view, .fetch-art-pane .avatar-view {
+    -fx-avatar-arc-size: 24px;
+    -fx-avatar-size: 230px
+}
+.fetch-art-pane {
+    -fx-background-color: #f74b03
+}
+.fetch-art-pane:matched {
+    -fx-background-color: green
+}

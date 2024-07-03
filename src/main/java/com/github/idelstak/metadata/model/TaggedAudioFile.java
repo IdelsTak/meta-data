@@ -1,5 +1,6 @@
 package com.github.idelstak.metadata.model;
 
+import com.github.idelstak.metadata.components.*;
 import javafx.beans.property.*;
 import javafx.embed.swing.*;
 import javafx.scene.image.*;
@@ -88,7 +89,7 @@ public class TaggedAudioFile {
                Objects.equals(album, that.album) &&
                Objects.equals(artist, that.artist) &&
                Objects.equals(fileName, that.fileName) &&
-               Objects.equals(art, that.art);
+               new ImageComparator(art.get(), that.art.get()).equals();
     }
 
     @Override

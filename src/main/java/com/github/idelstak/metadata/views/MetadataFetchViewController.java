@@ -9,6 +9,7 @@ import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.collections.ListChangeListener.*;
 import javafx.collections.*;
+import javafx.css.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -28,6 +29,7 @@ import static javafx.collections.FXCollections.*;
 public class MetadataFetchViewController extends FxmlController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MetadataFetchViewController.class);
+    private static final PseudoClass MATCHED = PseudoClass.getPseudoClass("matched");
     private final ObjectProperty<MetadataQuery> query;
     private final ObservableList<TaggedAudioFile> tagResults;
     private final ObjectProperty<TaggedAudioFile> taggedAudioFile;
@@ -76,6 +78,8 @@ public class MetadataFetchViewController extends FxmlController {
     private CheckBox includeAlbumCheck;
     @FXML
     private CheckBox includeAllCheck;
+    @FXML
+    private StackPane newArtViewPane;
 
     public MetadataFetchViewController() {
         query = new SimpleObjectProperty<>();
@@ -121,6 +125,38 @@ public class MetadataFetchViewController extends FxmlController {
         newArtistLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::artist));
         newAlbumLabel.textProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::album));
         newArtView.imageProperty().bind(selectedTaggedAudioFile.map(TaggedAudioFile::art));
+
+        selectedTaggedAudioFile.addListener((_, _, fetchedFile) -> {
+            runLater(() -> {
+                TaggedAudioFile originalFile = this.taggedAudioFile.get();
+
+                String fetchedText = fetchedFile != null ? fetchedFile.title() : "";
+                String originalText = originalFile != null ? originalFile.title() : "";
+                boolean match = fetchedText.equalsIgnoreCase(originalText);
+                newTitleLabel.pseudoClassStateChanged(MATCHED, match);
+                includeTitleCheck.setSelected(!match);
+
+                fetchedText = fetchedFile != null ? fetchedFile.artist() : "";
+                originalText = originalFile != null ? originalFile.artist() : "";
+                match = fetchedText.equalsIgnoreCase(originalText);
+                newArtistLabel.pseudoClassStateChanged(MATCHED, match);
+                includeArtistCheck.setSelected(!match);
+
+                fetchedText = fetchedFile != null ? fetchedFile.album() : "";
+                originalText = originalFile != null ? originalFile.album() : "";
+                match = fetchedText.equalsIgnoreCase(originalText);
+                newAlbumLabel.pseudoClassStateChanged(MATCHED, match);
+                includeAlbumCheck.setSelected(!match);
+
+                Image fetchedArt = fetchedFile != null ? fetchedFile.art() : null;
+                Image originalArt = originalFile != null ? originalFile.art() : null;
+                match = new ImageComparator(fetchedArt, originalArt).equals();
+                newArtViewPane.pseudoClassStateChanged(MATCHED, match);
+                includeArtCheck.setSelected(!match);
+
+                artResultsTable.requestFocus();
+            });
+        });
 
         // Bind allSelected to true if all individual checkboxes are selected
         allIncludeChecksSelected.bind(Bindings.createBooleanBinding(() -> includeTitleCheck.isSelected() &&
@@ -273,6 +309,7 @@ public class MetadataFetchViewController extends FxmlController {
     @FXML
     private void cancelFetch(ActionEvent actionEvent) {
         cancelFetch.set(true);
+        runLater(() -> artResultsTable.requestFocus());
         actionEvent.consume();
     }
 

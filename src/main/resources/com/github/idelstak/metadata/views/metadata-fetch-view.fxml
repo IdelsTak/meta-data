@@ -5,9 +5,10 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import org.kordamp.ikonli.javafx.*?>
 
-<GridPane hgap="6.0" prefWidth="500.0" stylesheets="@styles.css" vgap="6.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.MetadataFetchViewController">
+<GridPane hgap="6.0" prefWidth="700.0" stylesheets="@styles.css" vgap="6.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.MetadataFetchViewController">
     <columnConstraints>
         <ColumnConstraints minWidth="10.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -47,13 +48,14 @@
             </Label>
         </HBox>
     </StackPane>
-    <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tags Selection" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
+    <TitledPane animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tags Selection:" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
         <GridPane vgap="6.0">
             <columnConstraints>
                 <ColumnConstraints />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0" />
-            <ColumnConstraints halignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="20.0" />
+                <ColumnConstraints />
+                <ColumnConstraints halignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="20.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="-Infinity" prefHeight="25.0" />
@@ -75,22 +77,28 @@
                     <String fx:value="underlined" />
                 </styleClass>
             </Label>
-         <Label alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Include" GridPane.columnIndex="3">
-            <styleClass>
-               <String fx:value="bold" />
-               <String fx:value="underlined" />
-            </styleClass>
-            <graphic>
-               <CheckBox fx:id="includeAllCheck" mnemonicParsing="false">
-                  <padding>
-                     <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
-                  </padding>
-               </CheckBox>
-            </graphic>
-            <GridPane.margin>
-               <Insets left="-52.0" />
-            </GridPane.margin>
-         </Label>
+            <Label layoutX="207.0" layoutY="22.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Include" GridPane.columnIndex="3">
+                <styleClass>
+                    <String fx:value="bold" />
+                    <String fx:value="underlined" />
+                </styleClass>
+                <padding>
+                    <Insets right="6.0" />
+                </padding>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4">
+                <styleClass>
+                    <String fx:value="bold" />
+                    <String fx:value="underlined" />
+                </styleClass>
+                <graphic>
+                    <CheckBox fx:id="includeAllCheck" mnemonicParsing="false">
+                        <padding>
+                            <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                        </padding>
+                    </CheckBox>
+                </graphic>
+            </Label>
             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Title" GridPane.rowIndex="1">
                 <styleClass>
                     <String fx:value="underlined" />
@@ -104,23 +112,29 @@
                     <String fx:value="right-padded" />
                 </styleClass>
             </Label>
-            <Label fx:id="newTitleLabel" layoutX="138.0" layoutY="46.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="underlined" text="{new title}" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-         <Label alignment="CENTER" graphicTextGap="6.0" layoutX="343.0" layoutY="24.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="1">
-            <styleClass>
-               <String fx:value="bold" />
-               <String fx:value="underlined" />
-            </styleClass>
-            <graphic>
-               <CheckBox fx:id="includeTitleCheck" mnemonicParsing="false">
-                  <padding>
-                     <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
-                  </padding>
-               </CheckBox>
-            </graphic>
-            <padding>
-               <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
-            </padding>
-         </Label>
+            <Label fx:id="newTitleLabel" layoutX="138.0" layoutY="46.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="{new title}" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <styleClass>
+                    <String fx:value="underlined" />
+                    <String fx:value="fetch-field" />
+                </styleClass>
+            </Label>
+            <Label layoutX="240.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="underlined" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" graphicTextGap="6.0" layoutX="343.0" layoutY="24.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                <styleClass>
+                    <String fx:value="bold" />
+                    <String fx:value="underlined" />
+                </styleClass>
+                <graphic>
+                    <CheckBox fx:id="includeTitleCheck" mnemonicParsing="false">
+                        <padding>
+                            <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                        </padding>
+                    </CheckBox>
+                </graphic>
+                <padding>
+                    <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                </padding>
+            </Label>
             <Label layoutX="228.0" layoutY="46.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Artist" GridPane.rowIndex="2">
                 <styleClass>
                     <String fx:value="bold" />
@@ -134,23 +148,29 @@
                     <String fx:value="right-padded" />
                 </styleClass>
             </Label>
-            <Label fx:id="newArtistLabel" layoutX="57.0" layoutY="76.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="underlined" text="{new artist}" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-         <Label alignment="CENTER" graphicTextGap="6.0" layoutX="343.0" layoutY="52.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="2">
-            <styleClass>
-               <String fx:value="bold" />
-               <String fx:value="underlined" />
-            </styleClass>
-            <graphic>
-               <CheckBox fx:id="includeArtistCheck" mnemonicParsing="false">
-                  <padding>
-                     <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
-                  </padding>
-               </CheckBox>
-            </graphic>
-            <padding>
-               <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
-            </padding>
-         </Label>
+            <Label fx:id="newArtistLabel" layoutX="57.0" layoutY="76.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="{new artist}" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                <styleClass>
+                    <String fx:value="underlined" />
+                    <String fx:value="fetch-field" />
+                </styleClass>
+            </Label>
+            <Label layoutX="396.0" layoutY="53.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="underlined" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label alignment="CENTER" graphicTextGap="6.0" layoutX="343.0" layoutY="52.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                <styleClass>
+                    <String fx:value="bold" />
+                    <String fx:value="underlined" />
+                </styleClass>
+                <graphic>
+                    <CheckBox fx:id="includeArtistCheck" mnemonicParsing="false">
+                        <padding>
+                            <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                        </padding>
+                    </CheckBox>
+                </graphic>
+                <padding>
+                    <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                </padding>
+            </Label>
             <Label layoutX="228.0" layoutY="76.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Album" GridPane.rowIndex="3">
                 <styleClass>
                     <String fx:value="bold" />
@@ -163,59 +183,84 @@
                     <String fx:value="right-padded" />
                 </styleClass>
             </Label>
-            <Label fx:id="newAlbumLabel" layoutX="64.0" layoutY="106.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="underlined" text="{new album}" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-         <Label alignment="CENTER" graphicTextGap="6.0" layoutX="343.0" layoutY="83.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="3">
-            <styleClass>
-               <String fx:value="bold" />
-               <String fx:value="underlined" />
-            </styleClass>
-            <graphic>
-               <CheckBox fx:id="includeAlbumCheck" mnemonicParsing="false">
-                  <padding>
-                     <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
-                  </padding>
-               </CheckBox>
-            </graphic>
-            <padding>
-               <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
-            </padding>
-         </Label>
+            <Label fx:id="newAlbumLabel" layoutX="64.0" layoutY="106.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="{new album}" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                <styleClass>
+                    <String fx:value="underlined" />
+                    <String fx:value="fetch-field" />
+                </styleClass>
+            </Label>
+            <Label layoutX="396.0" layoutY="84.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="underlined" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Label alignment="CENTER" graphicTextGap="6.0" layoutX="343.0" layoutY="83.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                <styleClass>
+                    <String fx:value="bold" />
+                    <String fx:value="underlined" />
+                </styleClass>
+                <graphic>
+                    <CheckBox fx:id="includeAlbumCheck" mnemonicParsing="false">
+                        <padding>
+                            <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                        </padding>
+                    </CheckBox>
+                </graphic>
+                <padding>
+                    <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                </padding>
+            </Label>
             <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Art" GridPane.rowIndex="4" GridPane.valignment="TOP">
                 <styleClass>
                     <String fx:value="bold" />
                     <String fx:value="right-padded" />
                 </styleClass>
-            <GridPane.margin>
-               <Insets top="6.0" />
-            </GridPane.margin>
+                <GridPane.margin>
+                    <Insets top="6.0" />
+                </GridPane.margin>
             </Label>
-            <AvatarView fx:id="originalArtView" size="230.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="art-pane" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets top="6.0" />
+                </GridPane.margin>
+                <AvatarView fx:id="originalArtView" />
+            </StackPane>
+            <StackPane fx:id="newArtViewPane" styleClass="fetch-art-pane" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                <GridPane.margin>
+                    <Insets top="6.0" />
+                </GridPane.margin>
+                <AvatarView fx:id="newArtView" size="230.0" />
+            </StackPane>
+            <Label alignment="TOP_CENTER" graphicTextGap="6.0" layoutX="343.0" layoutY="114.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                <styleClass>
+                    <String fx:value="bold" />
+                    <String fx:value="underlined" />
+                </styleClass>
+                <graphic>
+                    <CheckBox fx:id="includeArtCheck" mnemonicParsing="false">
+                        <padding>
+                            <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                        </padding>
+                    </CheckBox>
+                </graphic>
+                <padding>
+                    <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                </padding>
+                <GridPane.margin>
+                    <Insets top="6.0" />
+                </GridPane.margin>
+            </Label>
             <padding>
-               <Insets top="6.0" />
-            </padding></AvatarView>
-            <AvatarView fx:id="newArtView" layoutX="84.0" layoutY="201.0" size="230.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
-            <padding>
-               <Insets top="6.0" />
-            </padding></AvatarView>
-         <Label alignment="TOP_CENTER" graphicTextGap="6.0" layoutX="343.0" layoutY="114.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="4">
-            <styleClass>
-               <String fx:value="bold" />
-               <String fx:value="underlined" />
-            </styleClass>
-            <graphic>
-               <CheckBox fx:id="includeArtCheck" mnemonicParsing="false">
-                  <padding>
-                     <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
-                  </padding>
-               </CheckBox>
-            </graphic>
-            <padding>
-               <Insets bottom="-2.0" left="-2.0" right="-2.0" top="6.0" />
+                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
             </padding>
-         </Label>
-         <padding>
-            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
-         </padding>
         </GridPane>
+        <graphic>
+            <HBox alignment="CENTER_LEFT" styleClass="legend-box">
+                <HBox styleClass="legend-box">
+                    <Rectangle height="12.0" styleClass="legend-square-matched" width="12.0" />
+                    <Label text="matched" />
+                </HBox>
+                <HBox layoutX="10.0" layoutY="10.0" styleClass="legend-box">
+                    <Rectangle height="12.0" styleClass="legend-square-unmatched" width="12.0" />
+                    <Label text="unmatched" />
+                </HBox>
+            </HBox>
+        </graphic>
     </TitledPane>
 </GridPane>
