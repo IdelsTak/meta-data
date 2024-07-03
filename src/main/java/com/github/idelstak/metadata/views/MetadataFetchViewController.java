@@ -306,8 +306,13 @@ public class MetadataFetchViewController extends FxmlController {
                     .map(stream -> stream.collect(joining(", ")));
     }
 
+    public BooleanProperty cancelFetchProperty() {
+        return cancelFetch;
+    }
+
     @FXML
     private void cancelFetch(ActionEvent actionEvent) {
+        cancelFetch.setValue(null);
         cancelFetch.set(true);
         runLater(() -> artResultsTable.requestFocus());
         actionEvent.consume();

@@ -16,20 +16,27 @@ import static javafx.application.Platform.*;
 public class MetadataFetchDialog extends Dialog<ButtonType> {
 
     private static final Logger LOG = LoggerFactory.getLogger(MetadataFetchViewController.class);
+    private MetadataFetchViewController controller;
 
     public MetadataFetchDialog(Window owner, MetadataQuery query, TaggedAudioFile taggedAudioFile) throws IOException {
         setTitle("Fetch Metadata");
         initOwner(owner);
         setDialogPane(dialogPane(query, taggedAudioFile));
 
+        setOnHiding(_ -> {
+            if (controller != null) {
+                controller.cancelFetchProperty().setValue(null);
+                controller.cancelFetchProperty().set(true);
+            }
+        });
         setResultConverter(param -> {
             return param.getButtonData() == ButtonBar.ButtonData.OK_DONE ? ButtonType.OK : ButtonType.CANCEL;
         });
     }
 
-    private static DialogPane dialogPane(MetadataQuery query, TaggedAudioFile taggedAudioFile) throws IOException {
+    private DialogPane dialogPane(MetadataQuery query, TaggedAudioFile taggedAudioFile) throws IOException {
         Node root = METADATA_FETCH_VIEW.root();
-        MetadataFetchViewController controller = (MetadataFetchViewController) METADATA_FETCH_VIEW.controller();
+        controller = (MetadataFetchViewController) METADATA_FETCH_VIEW.controller();
         controller.setQuery(query);
         controller.setTaggedAudioFile(taggedAudioFile);
 
