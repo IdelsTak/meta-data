@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.idelstak</groupId>
     <artifactId>metadata</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-beta.1</version>
     <packaging>jar</packaging>
 
     <properties>
