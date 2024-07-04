@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
@@ -13,13 +14,25 @@
                     <FontIcon style="-fx-icon-code: bx-folder-plus;" />
                 </graphic>
            </Button>
-           <Label fx:id="spacerLabel" maxWidth="1.7976931348623157E308" />
+         <Button fx:id="reloadDirectoryButton" layoutX="10.0" layoutY="11.0" onAction="#reloadDirectory">
+            <graphic>
+               <FontIcon style="-fx-icon-code: bx-refresh;" />
+            </graphic>
+         </Button>
+         <VBox fx:id="directoryInfoBox" spacing="2.0" styleClass="opened-directory-info-box">
+            <padding>
+               <Insets left="6.0" right="6.0" />
+            </padding>
+            <children>
+               <Label fx:id="directoryNameLabel" styleClass="opened-directory-title" text="{name}" />
+               <Label fx:id="directoryPathLabel" layoutX="16.0" layoutY="10.0" styleClass="opened-directory-path" text="{path}" />
+            </children>
+         </VBox>
            <Button fx:id="writeMetadataButton" onAction="#writeMetadata">
               <graphic>
                   <FontIcon style="-fx-icon-code: bx-save;" />
               </graphic>
            </Button>
-           <Separator orientation="VERTICAL" visible="false" />
            <Button fx:id="fetchMetadataButton" onAction="#fetchMetadata">
               <graphic>
                   <FontIcon style="-fx-icon-code: bx-cloud-download;" />
