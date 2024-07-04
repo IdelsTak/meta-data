@@ -6,58 +6,78 @@
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
 
-<BorderPane prefHeight="800.0" prefWidth="1000.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.MainViewController">
-   <top>
-       <ToolBar styleClass="main-tool-bar">
-           <Button onAction="#openDirectory">
-                <graphic>
-                    <FontIcon style="-fx-icon-code: bx-folder-plus;" />
-                </graphic>
-           </Button>
-         <Button fx:id="reloadDirectoryButton" layoutX="10.0" layoutY="11.0" onAction="#reloadDirectory">
-            <graphic>
-               <FontIcon style="-fx-icon-code: bx-refresh;" />
-            </graphic>
-         </Button>
-         <VBox fx:id="directoryInfoBox" spacing="2.0" styleClass="opened-directory-info-box">
-            <padding>
-               <Insets left="6.0" right="6.0" />
-            </padding>
+<StackPane prefHeight="800.0" prefWidth="1000.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.idelstak.metadata.views.MainViewController">
+    <BorderPane fx:id="mainViewPane">
+        <top>
+            <ToolBar styleClass="main-tool-bar">
+                <Button onAction="#openDirectory">
+                    <graphic>
+                        <FontIcon style="-fx-icon-code: bx-folder-plus;" />
+                    </graphic>
+                </Button>
+                <Button fx:id="reloadDirectoryButton" layoutX="10.0" layoutY="11.0" onAction="#reloadDirectory">
+                    <graphic>
+                        <FontIcon style="-fx-icon-code: bx-refresh;" />
+                    </graphic>
+                </Button>
+                <VBox fx:id="directoryInfoBox" spacing="2.0" styleClass="opened-directory-info-box">
+                    <padding>
+                        <Insets left="6.0" right="6.0" />
+                    </padding>
+                    <Label fx:id="directoryNameLabel" styleClass="opened-directory-title" text="{name}" />
+                    <Label fx:id="directoryPathLabel" layoutX="16.0" layoutY="10.0" styleClass="opened-directory-path" text="{path}" />
+                </VBox>
+                <Button fx:id="writeMetadataButton" onAction="#writeMetadata">
+                    <graphic>
+                        <FontIcon style="-fx-icon-code: bx-save;" />
+                    </graphic>
+                </Button>
+                <Button fx:id="fetchMetadataButton" onAction="#fetchMetadata">
+                    <graphic>
+                        <FontIcon style="-fx-icon-code: bx-cloud-download;" />
+                    </graphic>
+                </Button>
+            </ToolBar>
+        </top>
+        <bottom>
+            <HBox BorderPane.alignment="CENTER">
+                <styleClass>
+                    <String fx:value="status-bar" />
+                    <String fx:value="light-border" />
+                </styleClass>
+                <Label fx:id="statusLabel" text="{status}" HBox.hgrow="ALWAYS" />
+                <Label fx:id="progressLabel" text="{x/y}" />
+                <ProgressBar fx:id="progressBar" progress="0.0" />
+                <Button fx:id="cancelFileLoadButton" mnemonicParsing="false" onAction="#cancelFileLoading" styleClass="cancel-button">
+                    <graphic>
+                        <FontIcon />
+                    </graphic>
+                </Button>
+            </HBox>
+        </bottom>
+        <center>
+         <StackPane>
             <children>
-               <Label fx:id="directoryNameLabel" styleClass="opened-directory-title" text="{name}" />
-               <Label fx:id="directoryPathLabel" layoutX="16.0" layoutY="10.0" styleClass="opened-directory-path" text="{path}" />
+                  <SplitPane fx:id="mainSplitPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" />
+               <ProgressIndicator fx:id="firstLoadprogressIndicator" progress="0.0" />
             </children>
-         </VBox>
-           <Button fx:id="writeMetadataButton" onAction="#writeMetadata">
-              <graphic>
-                  <FontIcon style="-fx-icon-code: bx-save;" />
-              </graphic>
-           </Button>
-           <Button fx:id="fetchMetadataButton" onAction="#fetchMetadata">
-              <graphic>
-                  <FontIcon style="-fx-icon-code: bx-cloud-download;" />
-              </graphic>
-           </Button>
-       </ToolBar>
-   </top>
-   <bottom>
-      <HBox BorderPane.alignment="CENTER">
-         <styleClass>
-            <String fx:value="status-bar" />
-            <String fx:value="light-border" />
-         </styleClass>
-         <children>
-            <Label fx:id="statusLabel" text="{status}" HBox.hgrow="ALWAYS" />
-            <Label fx:id="progressLabel" text="{x/y}" />
-            <ProgressBar fx:id="progressBar" progress="0.0" />
-            <Button fx:id="cancelFileLoadButton" mnemonicParsing="false" onAction="#cancelFileLoading" styleClass="cancel-button">
-               <graphic>
-                  <FontIcon />
-               </graphic>
-            </Button>
-         </children></HBox>
-   </bottom>
-   <center>
-      <SplitPane fx:id="mainSplitPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" />
-   </center>
-</BorderPane>
+         </StackPane>
+        </center>
+    </BorderPane>
+    <BorderPane fx:id="welcomeScreen" styleClass="welcome-screen" stylesheets="@styles.css" visible="false">
+        <center>
+            <VBox styleClass="graphic-box" BorderPane.alignment="CENTER">
+                <VBox alignment="CENTER">
+                    <FontIcon styleClass="main-graphic" />
+                    <Label styleClass="bold" text="Open audio folder to edit, view &amp; tag files">
+                        <padding>
+                            <Insets bottom="24.0" />
+                        </padding>
+                    </Label>
+                    <Button mnemonicParsing="false" onAction="#openDirectory" text="Open Folder" />
+                </VBox>
+                <Label text="Subfolders will be dived into to find all audio." />
+            </VBox>
+        </center>
+    </BorderPane>
+</StackPane>
