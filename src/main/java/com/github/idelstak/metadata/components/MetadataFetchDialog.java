@@ -25,6 +25,7 @@ package com.github.idelstak.metadata.components;
 
 import com.github.idelstak.metadata.model.*;
 import com.github.idelstak.metadata.views.*;
+import javafx.event.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
@@ -80,7 +81,7 @@ public class MetadataFetchDialog extends Dialog<ButtonType> {
             if (writeButton == null) {
                 return;
             }
-            writeButton.setOnAction(event -> {
+            writeButton.addEventFilter(ActionEvent.ACTION, event -> {
                 try {
                     taggedAudioFile.writeFrom(controller.selectedTaggedAudioFile());
                 } catch (IOException e) {
