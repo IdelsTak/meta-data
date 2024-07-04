@@ -169,6 +169,10 @@ public class FilesTableViewController extends FxmlController {
         });
     }
 
+    ObjectProperty<File> loadedDirectory() {
+        return rootDirectory;
+    }
+
     void setDirectory(File rootDirectory) {
         this.rootDirectory.set(rootDirectory);
     }
