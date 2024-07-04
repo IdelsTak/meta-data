@@ -28,6 +28,7 @@ import com.github.idelstak.metadata.components.*;
 import com.github.idelstak.metadata.model.*;
 import javafx.beans.binding.*;
 import javafx.beans.property.*;
+import javafx.beans.value.*;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -75,6 +76,12 @@ public class MainViewController extends FxmlController {
     private VBox directoryInfoBox;
     @FXML
     private Button reloadDirectoryButton;
+    @FXML
+    private BorderPane welcomeScreen;
+    @FXML
+    private BorderPane mainViewPane;
+    @FXML
+    private ProgressIndicator firstLoadprogressIndicator;
 
     public MainViewController() {
         cancelFileLoad = new SimpleBooleanProperty();
@@ -95,8 +102,22 @@ public class MainViewController extends FxmlController {
                 writeMetadataButton.disableProperty().bind(noFileSelected);
                 writeMetadataButton.disableProperty().bind(noFileSelected);
                 fetchMetadataButton.disableProperty().bind(noFileSelected);
+                firstLoadprogressIndicator.progressProperty()
+                                          .bind(filesLoadingProperty.map(loading -> loading ? -1 : 1));
+                Pane parent = ((Pane) firstLoadprogressIndicator.getParent());
+                ObservableValue<Double> mappedIndicatorWidth = parent.widthProperty()
+                                                                     .map(Number::doubleValue)
+                                                                     .map(width -> width * 0.5f);
+                firstLoadprogressIndicator.prefWidthProperty().bind(mappedIndicatorWidth);
+                ReadOnlyDoubleProperty indicatorWidth = firstLoadprogressIndicator.widthProperty();
+                firstLoadprogressIndicator.prefHeightProperty().bind(indicatorWidth);
+                firstLoadprogressIndicator.visibleProperty().bind(noFileSelected);
+                mainSplitPane.visibleProperty().bind(noFileSelected.not());
                 ObjectProperty<File> loadedDirectory = controller.loadedDirectory();
-                reloadDirectoryButton.disableProperty().bind(loadedDirectory.isNull());
+                BooleanBinding noDirectoryLoaded = loadedDirectory.isNull();
+                welcomeScreen.visibleProperty().bind(noDirectoryLoaded);
+                mainViewPane.visibleProperty().bind(noDirectoryLoaded.not());
+                reloadDirectoryButton.disableProperty().bind(noDirectoryLoaded);
                 reloadDirectoryButton.addEventFilter(ActionEvent.ACTION, event -> {
                     try {
                         prepareDirectoryViewing(loadedDirectory.get());
