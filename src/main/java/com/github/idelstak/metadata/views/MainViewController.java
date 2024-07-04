@@ -23,6 +23,7 @@
  */
 package com.github.idelstak.metadata.views;
 
+import com.github.idelstak.metadata.components.Alert;
 import com.github.idelstak.metadata.components.*;
 import com.github.idelstak.metadata.model.*;
 import javafx.beans.binding.*;
@@ -53,8 +54,6 @@ public class MainViewController extends FxmlController {
     private final DoubleProperty totalFilesLoadingProperty;
     private final BooleanProperty filesLoadingProperty;
     @FXML
-    private Label spacerLabel;
-    @FXML
     private SplitPane mainSplitPane;
     @FXML
     private Button writeMetadataButton;
@@ -68,6 +67,14 @@ public class MainViewController extends FxmlController {
     private Label statusLabel;
     @FXML
     private Button cancelFileLoadButton;
+    @FXML
+    private Label directoryPathLabel;
+    @FXML
+    private Label directoryNameLabel;
+    @FXML
+    private VBox directoryInfoBox;
+    @FXML
+    private Button reloadDirectoryButton;
 
     public MainViewController() {
         cancelFileLoad = new SimpleBooleanProperty();
@@ -80,7 +87,7 @@ public class MainViewController extends FxmlController {
 
     @Override
     protected void initialize() throws IOException {
-        spacerLabel.skinProperty().addListener(_ -> runLater(() -> {
+        writeMetadataButton.skinProperty().addListener(_ -> runLater(() -> {
             try {
                 loadViews();
                 FilesTableViewController controller = (FilesTableViewController) FILES_TABLE_VIEW.controller();
@@ -88,11 +95,24 @@ public class MainViewController extends FxmlController {
                 writeMetadataButton.disableProperty().bind(noFileSelected);
                 writeMetadataButton.disableProperty().bind(noFileSelected);
                 fetchMetadataButton.disableProperty().bind(noFileSelected);
+                ObjectProperty<File> loadedDirectory = controller.loadedDirectory();
+                reloadDirectoryButton.disableProperty().bind(loadedDirectory.isNull());
+                reloadDirectoryButton.addEventFilter(ActionEvent.ACTION, event -> {
+                    try {
+                        prepareDirectoryViewing(loadedDirectory.get());
+                    } catch (IOException e) {
+                        Window owner = reloadDirectoryButton.getScene().getWindow();
+                        Alert.ERROR.show(owner, "", e);
+                        event.consume();
+                    }
+                });
+                directoryNameLabel.textProperty().bind(loadedDirectory.map(File::getName));
+                directoryPathLabel.textProperty().bind(loadedDirectory.map(File::getPath));
             } catch (IOException e) {
                 LOG.error("", e);
             }
         }));
-        HBox.setHgrow(spacerLabel, Priority.ALWAYS);
+        HBox.setHgrow(directoryInfoBox, Priority.ALWAYS);
         mainSplitPane.heightProperty().addListener((_, _, _) -> runLater(this::updateDividerPosition));
 
         progressBar.progressProperty().bind(filesLoadProgressProperty);
@@ -126,6 +146,18 @@ public class MainViewController extends FxmlController {
         updateDividerPosition();
     }
 
+    private void prepareDirectoryViewing(File directory) throws IOException {
+        FilesTableViewController controller = (FilesTableViewController) FILES_TABLE_VIEW.controller();
+        controller.setFileLoadCancelProperty(cancelFileLoad);
+        controller.setFilesLoadedProperty(filesLoadedProperty);
+        controller.setFilesLoadProgressProperty(filesLoadProgressProperty);
+        controller.setFilesLoadMessageProperty(filesLoadMessageProperty);
+        controller.setTotalFilesLoadingProperty(totalFilesLoadingProperty);
+        controller.setFilesLoadingProperty(filesLoadingProperty);
+        controller.setDirectory(null);
+        controller.setDirectory(directory);
+    }
+
     private void updateDividerPosition() {
         mainSplitPane.setDividerPosition(0, 0.9);
     }
@@ -136,6 +168,10 @@ public class MainViewController extends FxmlController {
 
     private Node songInfoPane() throws IOException {
         return SONG_INFO_VIEW.root();
+    }
+
+    @FXML
+    private void reloadDirectory(ActionEvent actionEvent) {
     }
 
     @FXML
@@ -190,14 +226,7 @@ public class MainViewController extends FxmlController {
         LOG.info("Selected directory: {}", directory);
 
         if (directory != null) {
-            FilesTableViewController controller = (FilesTableViewController) FILES_TABLE_VIEW.controller();
-            controller.setFileLoadCancelProperty(cancelFileLoad);
-            controller.setFilesLoadedProperty(filesLoadedProperty);
-            controller.setFilesLoadProgressProperty(filesLoadProgressProperty);
-            controller.setFilesLoadMessageProperty(filesLoadMessageProperty);
-            controller.setTotalFilesLoadingProperty(totalFilesLoadingProperty);
-            controller.setFilesLoadingProperty(filesLoadingProperty);
-            controller.setDirectory(directory);
+            prepareDirectoryViewing(directory);
         }
     }
 }
