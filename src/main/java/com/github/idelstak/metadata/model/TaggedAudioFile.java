@@ -31,8 +31,11 @@ import org.jaudiotagger.audio.*;
 import org.jaudiotagger.audio.exceptions.*;
 import org.jaudiotagger.tag.*;
 import org.jaudiotagger.tag.datatype.*;
+import org.jaudiotagger.tag.flac.*;
+import org.jaudiotagger.tag.id3.*;
 import org.jaudiotagger.tag.id3.valuepair.*;
 import org.jaudiotagger.tag.reference.*;
+import org.jaudiotagger.tag.vorbiscomment.*;
 import org.slf4j.*;
 
 import javax.imageio.*;
@@ -139,7 +142,30 @@ public class TaggedAudioFile {
 
         Tag tag = audioFile.getTag();
         if (tag == null) {
-            throw new IOException("Tag is null in AudioFile.");
+            String fileNameGot = taggedAudioFile.fileName.get();
+            if (fileNameGot != null) {
+                fileName.set(fileNameGot);
+            } else {
+                fileNameGot = fileName();
+            }
+
+            boolean isMp3 = fileNameGot.endsWith(".mp3");
+            if (isMp3) {
+                tag = new ID3v24Tag();
+            }
+
+            boolean isFlac = fileNameGot.endsWith(".flac");
+            if (isFlac) {
+                tag = new FlacTag(VorbisCommentTag.createNewTag(), new ArrayList<>());
+            }
+
+            if (tag == null) {
+                String fileExtension = fileExtension(fileNameGot);
+                String message = "Tagging for audio file type '%s' not supported yet".formatted(fileExtension);
+                throw new IOException(message);
+            }
+
+            audioFile.setTag(tag);
         }
 
         try {
@@ -160,6 +186,18 @@ public class TaggedAudioFile {
         }
 
         copy(taggedAudioFile);
+    }
+
+    public String fileName() {
+        return fileName.get();
+    }
+
+    private static String fileExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex != -1 && lastDotIndex < fileName.length() - 1) {
+            return fileName.substring(lastDotIndex + 1);
+        }
+        return "";
     }
 
     public String title() {
@@ -188,10 +226,6 @@ public class TaggedAudioFile {
 
     public Image art() {
         return art.get();
-    }
-
-    public String fileName() {
-        return fileName.get();
     }
 
     private void copy(TaggedAudioFile taggedAudioFile) {
