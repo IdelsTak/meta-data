@@ -16,6 +16,17 @@
 .main-tool-bar .ikonli-font-icon {
     -fx-icon-size: 24px
 }
+.opened-directory-title {
+    -fx-font-weight: bold
+}
+.opened-directory-path {
+    -fx-font-size: 0.9em;
+    -fx-text-fill: gray
+}
+.opened-directory-info-box, .opened-directory-title, .opened-directory-path {
+    -fx-alignment: center;
+    -fx-max-width: 'Infinity'
+}
 .status-bar {
     -fx-pref-height: 32px;
     -fx-alignment: center-left;
@@ -49,13 +60,12 @@
     -fx-background-color: derive(-fx-error-base, -6%)
 }
 .cancel-button:focused {
-    -fx-border-color: -fx-focus-color;
+    -fx-border-color: -fx-focus-color
 }
 .cancel-button .ikonli-font-icon {
     -fx-icon-code: mu-cancel;
     -fx-icon-size: 12px
 }
-
 .light-border {
     -fx-border-color: lightgray;
     -fx-border-width: 0.3px 0 0 0
