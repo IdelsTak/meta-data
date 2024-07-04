@@ -13,6 +13,20 @@
     -fx-font-size: 1.1em;
     -fx-error-base: red
 }
+.welcome-screen .graphic-box {
+   -fx-alignment: center;
+   -fx-spacing: 24px;
+}
+.welcome-screen .main-graphic {
+    -fx-icon-size: 96px;
+    -fx-icon-code: bx-music;
+    -fx-icon-color: #906e48;
+}
+.welcome-screen .button {
+   -fx-background-color: green;
+   -fx-text-fill: white;
+   -fx-pref-width: 10em;
+}
 .main-tool-bar .ikonli-font-icon {
     -fx-icon-size: 24px
 }
