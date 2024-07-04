@@ -37,7 +37,7 @@ public enum Alert {
         dialogPane = alert.getDialogPane();
     }
 
-    void show(Window owner, String message, Exception exception) {
+    public void show(Window owner, String message, Exception exception) {
         show(owner, message, null, exception);
     }
 
