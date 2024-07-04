@@ -16,9 +16,10 @@ MP3, FLAC, Ogg Vorbis, MPA, M4A, M4P, AIF, WAV, WMA, DSF, Opus
 ### Screenshots
 
 #### Files View & Editing
+
 Review and edit tags for a specific song.
 
-![Main screen](./screenshots/main-screenshot_2024-07-03_06-06.jpg)
+![Main screen](./screenshots/new-main-screenshot_2024-07-04_14-46-11.jpg)
 
 #### Search & Results
 Search for tags based on song title and edit fetched tags.
